@@ -28,6 +28,7 @@
         "monolog/monolog": "^2.9",
         "opis/orm": "^1.0",
         "php-di/php-di": "^6.4",
+        "slim/console": "^0.1.0",
         "slim/psr7": "^1.6",
         "slim/slim": "^4.11",
         "slim/twig-view": "^3.3",
@@ -51,7 +52,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
