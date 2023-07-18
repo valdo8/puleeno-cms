@@ -7,7 +7,7 @@ nbproject/
 # Vendor
 /vendor/
 # Logs
-/logs/*
+/storage/logs/*
 !/logs/README.md
 # Cache
 /var/cache/*
@@ -17,3 +17,5 @@ cache.properties
 # Composer
 composer.phar
 composer.lockvendor
+*.bak
+node_modules
