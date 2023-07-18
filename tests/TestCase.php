@@ -32,15 +32,15 @@ class TestCase extends PHPUnit_TestCase
         // Container intentionally not compiled for tests.
 
         // Set up settings
-        $settings = require __DIR__ . '/../config/settings.php';
+        $settings = require __DIR__ . '/../configs/settings.php';
         $settings($containerBuilder);
 
         // Set up dependencies
-        $dependencies = require __DIR__ . '/../config/dependencies.php';
+        $dependencies = require __DIR__ . '/../configs/dependencies.php';
         $dependencies($containerBuilder);
 
         // Set up repositories
-        $repositories = require __DIR__ . '/../config/repositories.php';
+        $repositories = require __DIR__ . '/../configs/repositories.php';
         $repositories($containerBuilder);
 
         // Build PHP-DI Container instance
@@ -51,11 +51,11 @@ class TestCase extends PHPUnit_TestCase
         $app = AppFactory::create();
 
         // Register middleware
-        $middleware = require __DIR__ . '/../config/middleware.php';
+        $middleware = require __DIR__ . '/../configs/middleware.php';
         $middleware($app);
 
         // Register routes
-        $routes = require __DIR__ . '/../config/routes.php';
+        $routes = require __DIR__ . '/../configs/routes.php';
         $routes($app);
 
         return $app;
