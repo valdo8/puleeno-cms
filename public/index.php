@@ -16,19 +16,19 @@ require __DIR__ . '/../vendor/autoload.php';
 $containerBuilder = new ContainerBuilder();
 
 if (false) { // Should be set to true in production
-	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+	$containerBuilder->enableCompilation(__DIR__ . '/../storage/caches');
 }
 
 // Set up settings
-$settings = require __DIR__ . '/../app/settings.php';
+$settings = require __DIR__ . '/../configs/settings.php';
 $settings($containerBuilder);
 
 // Set up dependencies
-$dependencies = require __DIR__ . '/../app/dependencies.php';
+$dependencies = require __DIR__ . '/../configs/dependencies.php';
 $dependencies($containerBuilder);
 
 // Set up repositories
-$repositories = require __DIR__ . '/../app/repositories.php';
+$repositories = require __DIR__ . '/../configs/repositories.php';
 $repositories($containerBuilder);
 
 // Build PHP-DI Container instance
@@ -40,11 +40,11 @@ $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
 // Register middleware
-$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware = require __DIR__ . '/../configs/middleware.php';
 $middleware($app);
 
 // Register routes
-$routes = require __DIR__ . '/../app/routes.php';
+$routes = require __DIR__ . '/../configs/routes.php';
 $routes($app);
 
 /** @var SettingsInterface $settings */
