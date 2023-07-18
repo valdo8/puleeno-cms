@@ -2,23 +2,33 @@
 
 namespace Platovies;
 
-class Bootstrap {
-    protected function init() {
+class Bootstrap
+{
+    protected function init()
+    {
+        //
     }
 
-    protected function loadComposer() {
+    protected function loadComposer()
+    {
+        //
     }
 
-    protected function setup() {
+    protected function setup()
+    {
+        //
     }
 
-    public function boot() {
+    public function boot()
+    {
         $this->init();
         $this->loadComposer();
         $this->setup();
         $this->run();
     }
 
-    protected function run() {
+    protected function run()
+    {
+        //
     }
 }
