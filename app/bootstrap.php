@@ -11,6 +11,12 @@ use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
+define('ROOT_PATH', dirname(__DIR__));
+define('THEMES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'themes');
+define('CONFIGS_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'configs');
+define('RESOURCES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'resources');
+define('STORAGES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'storage');
+
 final class Bootstrap
 {
     /**
@@ -32,11 +38,7 @@ final class Bootstrap
 
     protected function init()
     {
-        define('ROOT_PATH', dirname(__DIR__));
-        define('THEMES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'themes');
-        define('CONFIGS_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'configs');
-        define('RESOURCES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'resources');
-        define('STORAGES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'storage');
+        //
     }
 
     protected function loadComposer()
@@ -57,7 +59,7 @@ final class Bootstrap
     {
         // Instantiate PHP-DI ContainerBuilder
         $containerBuilder = new ContainerBuilder();
-        if (false) { // Should be set to true in production
+        if (defined('ENV_MODE') && constant('ENV_MODE')) { // Should be set to true in production
             $containerBuilder->enableCompilation(STORAGES_DIR . DIRECTORY_SEPARATOR . 'caches');
         }
         // Set up settings
