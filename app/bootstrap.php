@@ -26,9 +26,7 @@ final class Bootstrap
     protected $container;
 
     /**
-     * The request instance
-     *
-     * @var \Slim\Psr7\Request
+     * @var \Psr\Http\Message\ServerRequestInterface
      */
     protected $request;
 
