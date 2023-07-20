@@ -50,7 +50,8 @@ class HttpErrorHandler extends SlimErrorHandler
             }
         }
 
-        if (!($exception instanceof HttpException)
+        if (
+            !($exception instanceof HttpException)
             && $exception instanceof Throwable
             && $this->displayErrorDetails
         ) {
