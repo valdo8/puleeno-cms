@@ -11,9 +11,7 @@ use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
-use function DI\value;
-
-class Bootstrap
+final class Bootstrap
 {
     /**
      * The Slim application
@@ -151,8 +149,3 @@ class Bootstrap
         return $this->app;
     }
 }
-
-$bootstrap = new Bootstrap();
-$bootstrap->boot();
-
-return $bootstrap->getApp();
