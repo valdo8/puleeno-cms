@@ -6,6 +6,7 @@ use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Application\Settings\SettingsInterface;
+use App\Core\ExtensionManager;
 use DI\ContainerBuilder;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -16,6 +17,7 @@ define('THEMES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'themes');
 define('CONFIGS_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'configs');
 define('RESOURCES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'resources');
 define('STORAGES_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'storage');
+define('EXTENSIONS_DIR', ROOT_PATH . DIRECTORY_SEPARATOR . 'extensions');
 
 final class Bootstrap
 {
@@ -86,6 +88,9 @@ final class Bootstrap
         // Register routes
         $routes = $this->loadSetting('routes');
         $routes($this->app);
+
+        // Extension system
+        ExtensionManager::loadExtensions($this->app, $this->container);
     }
 
     public function boot()

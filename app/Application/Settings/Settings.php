@@ -7,6 +7,7 @@ namespace App\Application\Settings;
 class Settings implements SettingsInterface
 {
     private array $settings;
+    private array $builtInExtensions = ['admin'];
 
     public function __construct(array $settings)
     {
@@ -19,5 +20,10 @@ class Settings implements SettingsInterface
     public function get(string $key = '')
     {
         return (empty($key)) ? $this->settings : $this->settings[$key];
+    }
+
+    public function isBuiltInExtension(string $extensionName)
+    {
+        return in_array($extensionName, $this->builtInExtensions);
     }
 }
