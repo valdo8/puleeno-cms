@@ -1,0 +1,22 @@
+{
+    "name": "platovies/admin",
+    "description": "The admin extension for Platovies",
+    "autoload": {
+        "psr-4": {
+            "Platovies\\Admin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Puleeno Nguyen",
+            "email": "puleeno@gmail.com"
+        }
+    ],
+    "require": {},
+    "config": {
+        "vendor-dir": "libs"
+    },
+    "extension-class": "\\Platovies\\Admin\\AdminExtension",
+    "filter-hooks": [],
+    "action-hooks": []
+}
