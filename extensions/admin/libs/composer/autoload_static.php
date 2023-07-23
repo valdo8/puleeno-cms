@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit848131f43a8494557fba9e6b380d35c6
 {
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'Platovies\\Admin\\' => 16,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Platovies\\Admin\\' => 
+        'Platovies\\Admin\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
@@ -30,7 +30,6 @@ class ComposerStaticInit848131f43a8494557fba9e6b380d35c6
             $loader->prefixLengthsPsr4 = ComposerStaticInit848131f43a8494557fba9e6b380d35c6::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit848131f43a8494557fba9e6b380d35c6::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit848131f43a8494557fba9e6b380d35c6::$classMap;
-
         }, null, ClassLoader::class);
     }
 }

@@ -11,6 +11,13 @@ abstract class Extension implements ExtensionConstract
     protected $isBuiltIn = false;
 
     /**
+     * The priority of extension
+     *
+     * @var integer
+     */
+    protected $priority = 33;
+
+    /**
      * Slim app
      *
      * @var \Slim\App
@@ -58,5 +65,10 @@ abstract class Extension implements ExtensionConstract
                 $routes($this->app);
             }
         }
+    }
+
+    public function getPriority(): int
+    {
+        return $this->priority;
     }
 }

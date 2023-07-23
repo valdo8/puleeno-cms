@@ -89,7 +89,8 @@ final class Bootstrap
         $routes = $this->loadSetting('routes');
         $routes($this->app);
 
-        // Extension system
+        // Load extension system
+        // @phpstan-ignore-next-line
         ExtensionManager::loadExtensions($this->app, $this->container);
     }
 

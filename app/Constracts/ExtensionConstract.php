@@ -16,4 +16,6 @@ interface ExtensionConstract
     public function setApp(App &$app);
 
     public function setContainer(Container &$container);
+
+    public function getPriority(): int;
 }

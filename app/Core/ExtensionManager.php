@@ -51,7 +51,7 @@ class ExtensionManager
     protected static function getInstance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
         return static::$instance;
     }
@@ -119,7 +119,7 @@ class ExtensionManager
         return $extInfo;
     }
 
-    public static function loadExtensions(&$app = null, &$container = null)
+    public static function loadExtensions(&$app, &$container)
     {
         foreach (static::getAllExtensions() as $extensionInfo) {
             $extension = $extensionInfo->getExtension();
