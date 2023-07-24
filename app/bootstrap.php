@@ -8,6 +8,10 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Application\Settings\SettingsInterface;
 use App\Core\ExtensionManager;
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
+use Dotenv\Repository\Adapter\EnvConstAdapter;
+use Dotenv\Repository\Adapter\PutenvAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
@@ -57,6 +61,17 @@ final class Bootstrap
         }
     }
 
+    protected function setupEnvironment()
+    {
+        $repository = RepositoryBuilder::createWithNoAdapters()
+            ->addAdapter(EnvConstAdapter::class)
+            ->addWriter(PutenvAdapter::class)
+            ->immutable()
+            ->make();
+        $dotenv = Dotenv::create($repository, ROOT_PATH);
+        $dotenv->load();
+    }
+
     protected function setup()
     {
         // Instantiate PHP-DI ContainerBuilder
@@ -98,6 +113,7 @@ final class Bootstrap
     {
         $this->init();
         $this->loadComposer();
+        $this->setupEnvironment();
         $this->setup();
         $this->run();
     }
