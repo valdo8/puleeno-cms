@@ -24,7 +24,7 @@ class HookManager
         return static::$instance;
     }
 
-    public function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         $instance = static::getInstance();
         if (!method_exists($instance, $name)) {

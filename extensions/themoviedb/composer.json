@@ -2,7 +2,7 @@
     "name": "platovies/themoviedb-extension",
     "autoload": {
         "psr-4": {
-            "Platovies\\ThemoviedbExtension\\": "src/"
+            "Platovies\\TheMovieDb\\": "src/"
         }
     },
     "authors": [
