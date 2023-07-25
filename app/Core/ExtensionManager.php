@@ -25,6 +25,8 @@ class ExtensionManager
         0 => 'admin',
     ];
 
+    protected $activeExtensions = [];
+
     protected static $instance;
 
     protected function __construct()
@@ -48,7 +50,7 @@ class ExtensionManager
         };
     }
 
-    protected static function getInstance()
+    public static function getInstance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new self();
@@ -119,16 +121,57 @@ class ExtensionManager
         return $extInfo;
     }
 
-    public static function loadExtensions(&$app, &$container)
+    public function addActiveExtension(ExtensionConstract $extension)
     {
+        array_push($this->activeExtensions, $extension);
+    }
+
+    public function loadExtensions(&$app, &$container)
+    {
+        $instance = static::getInstance();
         foreach (static::getAllExtensions() as $extensionInfo) {
+            /**
+             * @var \App\Core\Extension
+             */
             $extension = $extensionInfo->getExtension();
             if ($extension instanceof ExtensionConstract) {
                 $extension->setApp($app);
                 $extension->setContainer($container);
 
-                $extension->getRoutes();
+                $instance->addActiveExtension($extension);
+
+                // Call the bootstrap
+                $extension->bootstrap();
+
+                $extension->registerRoutes();
+
+                if (method_exists($extension, 'sendResponse')) {
+                    HookManager::addFilter('response', [$extension, 'sendResponse']);
+                }
             }
+        }
+    }
+
+    /**
+     * @return \App\Constracts\ExtensionConstract[]
+     */
+    public function getActiveExtensions()
+    {
+        if (is_null($this->activeExtensions)) {
+            return [];
+        }
+        return $this->activeExtensions;
+    }
+
+    /**
+     * Run active extensions
+     *
+     * @return void
+     */
+    public function runActiveExtensions()
+    {
+        foreach ($this->getActiveExtensions() as $extension) {
+            $extension->run();
         }
     }
 }

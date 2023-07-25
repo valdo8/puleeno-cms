@@ -33,44 +33,80 @@ class HookManager
         return call_user_func_array([$instance, $name], $arguments);
     }
 
-    public function addAction($hookName, callable $fn)
+    public static function addAction($hookName, callable $fn)
     {
-        if (!isset($this->actions[$hookName])) {
-            $this->actions[$hookName] = [];
+        $instance = static::getInstance();
+        if (!isset($instance->actions[$hookName])) {
+            $instance->actions[$hookName] = [];
         }
 
-        $this->actions[$hookName][] = $fn;
+        $instance->actions[$hookName][] = $fn;
     }
 
-    public function addFilter($hookName, callable $fn)
+    public static function addFilter($hookName, callable $fn)
     {
-        if (!isset($this->filters[$hookName])) {
-            $this->filters[$hookName] = [];
+        $instance = static::getInstance();
+        if (!isset($instance->filters[$hookName])) {
+            $instance->filters[$hookName] = [];
         }
 
-        $this->filters[$hookName][] = $fn;
+        $instance->filters[$hookName][] = $fn;
     }
 
-    public function executeAction($hookName, ...$params)
+    public function getActionsByHook($hookName)
     {
         if (isset($this->actions[$hookName])) {
-            foreach ($this->actions[$hookName] as $fn) {
-                call_user_func_array($fn, $params);
-            }
+            return $this->actions[$hookName];
+        }
+        return [];
+    }
+
+    /**
+     * @param string $hookName
+     * @return callable[]
+     */
+    public function getFiltersByHook($hookName): array
+    {
+        if (isset($this->filters[$hookName])) {
+            return $this->filters[$hookName];
+        }
+        return [];
+    }
+
+    public static function executeAction($hookName, ...$params)
+    {
+        $instance = static::getInstance();
+        foreach ($instance->getActionsByHook($hookName) as $fn) {
+            call_user_func_array($fn, $params);
         }
     }
 
-    public function applyFilter($hookName, $value, $applyFirstHook = false)
+    public static function applyFilters($hookName, $value, $applyFirstHook = false)
     {
-        if (isset($this->filters[$hookName])) {
-            foreach ($this->filters[$hookName] as $fn) {
-                $value = call_user_func($fn, $value);
-                if ($applyFirstHook) {
-                    return $value;
-                }
+        $instance = static::getInstance();
+        foreach ($instance->getFiltersByHook($hookName) as $fn) {
+            $value = call_user_func($fn, $value);
+            if ($applyFirstHook) {
+                return $value;
             }
         }
 
         return $value;
+    }
+
+    public static function removeAllActionsByHook($hookName)
+    {
+        $instance = static::getInstance();
+        if (isset($instance->actions[$hookName])) {
+            unset($instance->actions[$hookName]);
+        }
+    }
+
+    public static function removeAllFiltersByHook($hookName)
+    {
+        $instance = static::getInstance();
+        if (isset($instance->filters[$hookName])) {
+            unset($instance->filters[$hookName]);
+        }
     }
 }

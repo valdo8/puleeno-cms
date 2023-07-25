@@ -7,6 +7,7 @@ use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Application\Settings\SettingsInterface;
 use App\Core\ExtensionManager;
+use App\Core\HookManager;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
@@ -105,8 +106,7 @@ final class Bootstrap
         $routes($this->app);
 
         // Load extension system
-        // @phpstan-ignore-next-line
-        ExtensionManager::loadExtensions($this->app, $this->container);
+        ExtensionManager::getInstance()->loadExtensions($this->app, $this->container);
     }
 
     public function boot()
@@ -120,14 +120,20 @@ final class Bootstrap
 
     protected function run()
     {
+        // Run all active extensions
+        ExtensionManager::getInstance()->runActiveExtensions();
+
         $this->writeErrorLogs(
             $this->setupHttpErrorHandle()
         );
 
         // Run App & Emit Response
         $response = $this->app->handle($this->request);
+
         $responseEmitter = new ResponseEmitter();
-        $responseEmitter->emit($response);
+        $responseEmitter->emit(
+            HookManager::applyFilters('response', $response)
+        );
     }
 
     // Create Error Handler

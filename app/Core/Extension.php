@@ -56,7 +56,22 @@ abstract class Extension implements ExtensionConstract
         return $this->extensionDir;
     }
 
-    public function getRoutes()
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
+
+    public function bootstrap()
+    {
+        //
+    }
+
+    public function setup()
+    {
+        //
+    }
+
+    public function registerRoutes()
     {
         $routeConfig = implode(DIRECTORY_SEPARATOR, [$this->getExtensionDir(), 'routes.php']);
         if (file_exists($routeConfig)) {
@@ -67,8 +82,13 @@ abstract class Extension implements ExtensionConstract
         }
     }
 
-    public function getPriority(): int
+    public function registerMiddlewares()
     {
-        return $this->priority;
+        //
+    }
+
+    public function run()
+    {
+        //
     }
 }
