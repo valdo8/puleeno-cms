@@ -11,7 +11,9 @@ const stylesHandler = isProduction
   : "style-loader";
 
 const config = {
-  entry: "./resource/js/index.js",
+  entry: {
+    app: "./resources/js/index.js"
+  },
   output: {
     path: path.resolve(__dirname, "public"),
   },

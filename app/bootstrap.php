@@ -64,13 +64,16 @@ final class Bootstrap
 
     protected function setupEnvironment()
     {
-        $repository = RepositoryBuilder::createWithNoAdapters()
-            ->addAdapter(EnvConstAdapter::class)
-            ->addWriter(PutenvAdapter::class)
-            ->immutable()
-            ->make();
-        $dotenv = Dotenv::create($repository, ROOT_PATH);
-        $dotenv->load();
+        $dotEnvFile = ROOT_PATH . DIRECTORY_SEPARATOR . '.env';
+        if (file_exists($dotEnvFile)) {
+            $repository = RepositoryBuilder::createWithNoAdapters()
+                ->addAdapter(EnvConstAdapter::class)
+                ->addWriter(PutenvAdapter::class)
+                ->immutable()
+                ->make();
+            $dotenv = Dotenv::create($repository, ROOT_PATH);
+            $dotenv->load();
+        }
     }
 
     protected function setup()

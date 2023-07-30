@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "Platovies\\Layout\\": "src/"
-        }
+        },
+        "files": [
+            "./functions.php"
+        ]
     },
     "authors": [
         {
