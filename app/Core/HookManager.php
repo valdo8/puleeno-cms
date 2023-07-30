@@ -81,16 +81,12 @@ class HookManager
         }
     }
 
-    public static function applyFilters($hookName, $value, $applyFirstHook = false)
+    public static function applyFilters($hookName, $value, ...$params)
     {
         $instance = static::getInstance();
         foreach ($instance->getFiltersByHook($hookName) as $fn) {
-            $value = call_user_func($fn, $value);
-            if ($applyFirstHook) {
-                return $value;
-            }
+            $value = call_user_func_array($fn, array_merge($value, $params));
         }
-
         return $value;
     }
 
