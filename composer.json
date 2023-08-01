@@ -32,7 +32,7 @@
         "slim/slim": "^4.11",
         "slim/twig-view": "^3.3",
         "spatie/schema-org": "^3.9",
-        "twig/twig": "^3.6",
+        "twig/twig": "^3.7",
         "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
