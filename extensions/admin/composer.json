@@ -20,6 +20,7 @@
     "filter-hooks": [],
     "action-hooks": [],
     "require-extensions": [
+        "puleeno/master-layout",
         "puleeno/react"
     ]
 }

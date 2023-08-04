@@ -7,7 +7,7 @@ namespace App\Application\Settings;
 class Settings implements SettingsInterface
 {
     private array $settings;
-    private array $builtInExtensions = ['admin'];
+    private array $builtInExtensions = ['admin', 'react', 'master-layout'];
 
     public function __construct(array $settings)
     {

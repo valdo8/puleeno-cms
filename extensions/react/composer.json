@@ -15,5 +15,6 @@
     "require": {},
     "config": {
         "vendor-dir": "libs"
-    }
+    },
+    "extension-class": "Puleeno\\React\\ReactExtension"
 }
