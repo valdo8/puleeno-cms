@@ -1,6 +1,6 @@
 <?php
 
-namespace Platovies\TheMovieDb;
+namespace Puleeno\TheMovieDb;
 
 use App\Core\Extension;
 

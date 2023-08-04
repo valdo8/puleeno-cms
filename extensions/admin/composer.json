@@ -1,9 +1,9 @@
 {
-    "name": "platovies/admin",
-    "description": "The admin extension for Platovies",
+    "name": "puleeno/admin",
+    "description": "The admin extension for Puleeno",
     "autoload": {
         "psr-4": {
-            "Platovies\\Admin\\": "src/"
+            "Puleeno\\Admin\\": "src/"
         }
     },
     "authors": [
@@ -16,10 +16,10 @@
     "config": {
         "vendor-dir": "libs"
     },
-    "extension-class": "\\Platovies\\Admin\\AdminExtension",
+    "extension-class": "\\Puleeno\\Admin\\AdminExtension",
     "filter-hooks": [],
     "action-hooks": [],
-    "require-extensions": {
-        ""
-    }
+    "require-extensions": [
+        "puleeno/react"
+    ]
 }

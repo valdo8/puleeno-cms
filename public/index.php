@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Platovies\Bootstrap;
+use Puleeno\Bootstrap;
 
 require __DIR__ . '/../app/bootstrap.php';
 $bootstrap = new Bootstrap();

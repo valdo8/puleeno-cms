@@ -1,6 +1,6 @@
 <?php
 
-namespace Platovies\Layout;
+namespace Puleeno\Layout;
 
 use Slim\Views\Twig;
 

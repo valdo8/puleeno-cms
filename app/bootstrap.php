@@ -1,6 +1,6 @@
 <?php
 
-namespace Platovies;
+namespace Puleeno;
 
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;

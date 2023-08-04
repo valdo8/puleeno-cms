@@ -1,9 +1,9 @@
 {
-    "name": "platovies/master-layout",
-    "description": "The master layout and layout manager for platovies",
+    "name": "puleeno/master-layout",
+    "description": "The master layout and layout manager for puleeno",
     "autoload": {
         "psr-4": {
-            "Platovies\\Layout\\": "src/"
+            "Puleeno\\Layout\\": "src/"
         },
         "files": [
             "./functions.php"
@@ -19,10 +19,10 @@
     "config": {
         "vendor-dir": "libs"
     },
-    "extension-class": "\\Platovies\\Layout\\LayoutExtension",
+    "extension-class": "\\Puleeno\\Layout\\LayoutExtension",
     "filter-hooks": [],
     "action-hooks": [],
     "require-extensions": [
-        "platovies/master-layout"
+        "puleeno/master-layout"
     ]
 }

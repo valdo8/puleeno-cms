@@ -1,8 +1,9 @@
 {
-    "name": "puleeno/themoviedb-extension",
+    "name": "puleeno/react",
+    "description": "The React views for Puleeno CMS",
     "autoload": {
         "psr-4": {
-            "Puleeno\\TheMovieDb\\": "src/"
+            "Puleeno\\React\\": "./"
         }
     },
     "authors": [

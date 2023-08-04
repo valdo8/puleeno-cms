@@ -1,6 +1,6 @@
 <?php
 
-namespace Platovies\Admin;
+namespace Puleeno\Admin;
 
 use App\Core\Extension;
 

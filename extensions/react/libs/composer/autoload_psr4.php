@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Puleeno\\Admin\\' => array($baseDir . '/src'),
+    'Puleeno\\React\\' => array($baseDir . '/'),
 );
