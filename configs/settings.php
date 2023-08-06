@@ -20,6 +20,7 @@ return function (ContainerBuilder $containerBuilder) {
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
+                'admin_prefix' => '/dashboard',
             ]);
         }
     ]);
