@@ -17,9 +17,15 @@ class Settings implements SettingsInterface
     /**
      * @return mixed
      */
-    public function get(string $key = '')
+    public function get(string $key = '', $defaultValue = null)
     {
-        return (empty($key)) ? $this->settings : $this->settings[$key];
+        if (empty($key)) {
+            $this->settings;
+        }
+        if (isset($this->settings[$key])) {
+            return $this->settings[$key];
+        }
+        return $defaultValue;
     }
 
     public function isBuiltInExtension(string $extensionName)

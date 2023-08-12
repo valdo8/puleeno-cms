@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit5735ad80c99d014c580a7cefad532f38
 {
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'Puleeno\\React\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Puleeno\\React\\' => 
+        'Puleeno\\React\\' =>
         array (
             0 => __DIR__ . '/../..' . '/',
         ),
@@ -30,7 +30,6 @@ class ComposerStaticInit5735ad80c99d014c580a7cefad532f38
             $loader->prefixLengthsPsr4 = ComposerStaticInit5735ad80c99d014c580a7cefad532f38::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5735ad80c99d014c580a7cefad532f38::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit5735ad80c99d014c580a7cefad532f38::$classMap;
-
         }, null, ClassLoader::class);
     }
 }

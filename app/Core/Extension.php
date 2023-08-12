@@ -77,7 +77,10 @@ abstract class Extension implements ExtensionConstract
         if (file_exists($routeConfig)) {
             $routes = require $routeConfig;
             if (is_callable($routes)) {
-                $routes($this->app);
+                call_user_func_array(
+                    $routes,
+                    [$this->app, $this->container]
+                );
             }
         }
     }
