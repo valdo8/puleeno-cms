@@ -1,3 +1,6 @@
 [submodule "extensions/react"]
 	path = extensions/react
 	url = https://github.com/puleeno-cms/react-extension.git
+[submodule "extensions/layout"]
+	path = extensions/layout
+	url = https://github.com/puleeno-cms/layout-extension.git
