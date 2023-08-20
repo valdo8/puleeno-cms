@@ -1,4 +1,7 @@
 <?php
+namespace App\Exceptions;
+
+use Exception;
 
 /**
  * Extension Exeption definitions
