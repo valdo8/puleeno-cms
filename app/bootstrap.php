@@ -2,12 +2,12 @@
 
 namespace Puleeno;
 
-use App\Application\Handlers\HttpErrorHandler;
-use App\Application\Handlers\ShutdownHandler;
-use App\Application\ResponseEmitter\ResponseEmitter;
-use App\Application\Settings\SettingsInterface;
 use App\Core\ExtensionManager;
 use App\Core\HookManager;
+use App\Core\Settings\SettingsInterface;
+use App\Http\Handlers\HttpErrorHandler;
+use App\Http\Handlers\ShutdownHandler;
+use App\Http\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
