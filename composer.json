@@ -1,6 +1,6 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "name": "puleeno/cms",
+    "description": "Yet another PHP CMS by Puleeno Nguyen",
     "keywords": [
         "microframework",
         "rest",
@@ -10,6 +10,11 @@
     "homepage": "http://github.com/slimphp/Slim-Skeleton",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Puleeno Nguyen",
+            "email": "puleeno@gmail.com",
+            "homepage": "https://puleeno.com"
+        },
         {
             "name": "Josh Lockhart",
             "email": "info@joshlockhart.com",
