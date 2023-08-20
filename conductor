@@ -1,0 +1,3 @@
+#!/usr/bin/env php
+<?php
+define('PULEENO_CMS_START', microtime(true));
