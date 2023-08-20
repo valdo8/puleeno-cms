@@ -4,3 +4,6 @@
 [submodule "extensions/layout"]
 	path = extensions/layout
 	url = https://github.com/puleeno-cms/layout-extension.git
+[submodule "extensions/dashboard"]
+	path = extensions/dashboard
+	url = https://github.com/puleeno-cms/dashboard-extension.git
