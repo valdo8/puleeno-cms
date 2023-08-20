@@ -14,7 +14,9 @@ class Authenticate implements MiddlewareInterface, AuthenticateMiddlewareConstra
     {
         $response = $handler->handle($request);
 
-        return $response->withHeader('Location', 'https://www.example.com')
-            ->withStatus(302);
+        // return $response->withHeader('Location', 'https://www.example.com')
+        //     ->withStatus(302);
+
+        return $response;
     }
 }

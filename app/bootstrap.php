@@ -108,6 +108,15 @@ final class Bootstrap
         $routes = $this->loadSetting('routes');
         $routes($this->app);
 
+        // Added CMS version to DI
+        $mainComposerFile = sprintf('%s/composer.json', ROOT_PATH);
+        if (file_exists($mainComposerFile)) {
+            $composerInfo = json_decode(file_get_contents($mainComposerFile), true);
+            $version = isset($composerInfo['cms-version']) ? $composerInfo['cms-version'] : '0.0.0';
+            $this->container->set('version', $version);
+        }
+
+
         // Load extension system
         ExtensionManager::getInstance()->loadExtensions($this->app, $this->container);
     }

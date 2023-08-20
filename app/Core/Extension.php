@@ -31,6 +31,8 @@ abstract class Extension implements ExtensionConstract
 
     protected $extensionDir;
 
+    protected $deps = [];
+
     public function isBuiltIn(): bool
     {
         return boolval($this->isBuiltIn);
@@ -49,6 +51,11 @@ abstract class Extension implements ExtensionConstract
     public function setExtensionDir($extensionDir)
     {
         $this->extensionDir = $extensionDir;
+    }
+
+    public function addDependencyExtension($extensionName, $version = "*")
+    {
+        $this->deps[$extensionName] = $version;
     }
 
     public function getExtensionDir()

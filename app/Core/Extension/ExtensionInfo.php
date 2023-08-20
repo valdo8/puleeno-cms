@@ -16,6 +16,8 @@ class ExtensionInfo
 
     protected $vendorDirectory;
 
+    protected $deps = [];
+
     public function setExtensionName($name)
     {
         return $this->name = $name;
@@ -29,6 +31,11 @@ class ExtensionInfo
     public function setVersion($version)
     {
         $this->version = $version;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
     }
 
     public function getExtensionName()
@@ -76,5 +83,20 @@ class ExtensionInfo
         if (file_exists($autoloader)) {
             require_once $autoloader;
         }
+    }
+
+    public function setDeps(array $deps = null)
+    {
+        if (is_array($deps)) {
+            $this->deps = $deps;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getDeps(): array
+    {
+        return $this->deps;
     }
 }

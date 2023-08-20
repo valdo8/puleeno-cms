@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Constracts\ExtensionConstract;
 use App\Core\Extension\ExtensionInfo;
+use App\Core\Extension\Resolver as ExtensionResolver;
 use RuntimeException;
 
 /**
@@ -78,6 +79,7 @@ class ExtensionManager
     {
         $extensions = [];
         $extensionFiles = glob(EXTENSIONS_DIR . DIRECTORY_SEPARATOR . '{*/*,*}.json', GLOB_BRACE);
+
         foreach ($extensionFiles as $extensionFile) {
             $jsonStr       = file_exists($extensionFile) ? file_get_contents($extensionFile) : '';
             $json          = json_decode($jsonStr, true);
@@ -87,7 +89,7 @@ class ExtensionManager
             $extensionInfo->loadVendor();
 
             if ($extensionInfo->isValid()) {
-                array_push($extensions, $extensionInfo);
+                $extensions[$extensionInfo->getExtensionName()] = $extensionInfo;
             }
         }
 
@@ -117,6 +119,7 @@ class ExtensionManager
         }
 
         $extInfo->setVendorDirectory(array_get($json, 'config.vendor-dir', 'vendor'));
+        $extInfo->setDeps(array_get($json, 'require-extensions', []));
 
         return $extInfo;
     }
@@ -129,25 +132,18 @@ class ExtensionManager
     public function loadExtensions(&$app, &$container)
     {
         $instance = static::getInstance();
-        foreach (static::getAllExtensions() as $extensionInfo) {
-            /**
-             * @var \App\Core\Extension
-             */
-            $extension = $extensionInfo->getExtension();
-            if ($extension instanceof ExtensionConstract) {
-                $extension->setApp($app);
-                $extension->setContainer($container);
+        $extensionResolver = new ExtensionResolver($app, $container);
 
-                $instance->addActiveExtension($extension);
+        foreach ($extensionResolver->resolve() as $extension) {
+            $instance->addActiveExtension($extension);
 
-                // Call the bootstrap
-                $extension->bootstrap();
+            // Call the bootstrap
+            $extension->bootstrap();
 
-                $extension->registerRoutes();
+            $extension->registerRoutes();
 
-                if (method_exists($extension, 'sendResponse')) {
-                    HookManager::addFilter('response', [$extension, 'sendResponse']);
-                }
+            if (method_exists($extension, 'sendResponse')) {
+                HookManager::addFilter('response', [$extension, 'sendResponse']);
             }
         }
     }
