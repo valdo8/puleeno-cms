@@ -7,3 +7,12 @@
 [submodule "extensions/dashboard"]
 	path = extensions/dashboard
 	url = https://github.com/puleeno-cms/dashboard-extension.git
+[submodule "extensions/text-editor"]
+	path = extensions/text-editor
+	url = https://github.com/puleeno-cms/editor-extension.git
+[submodule "extensions/blueprint"]
+	path = extensions/blueprint
+	url = https://github.com/puleeno-cms/blueprint-extension.git
+[submodule "extensions/quill-editor"]
+	path = extensions/quill-editor
+	url = https://github.com/puleeno-cms/quill-editor-extension.git
