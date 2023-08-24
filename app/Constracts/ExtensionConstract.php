@@ -7,6 +7,10 @@ use Slim\App;
 
 interface ExtensionConstract
 {
+    public function setExtensionName($name);
+
+    public function getExtensionName();
+
     public function isBuiltIn(): bool;
 
     public function setExtensionDir($extensionDir);

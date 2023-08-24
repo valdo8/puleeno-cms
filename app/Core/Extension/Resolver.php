@@ -4,6 +4,7 @@ namespace App\Core\Extension;
 
 use App\Constracts\ExtensionConstract;
 use App\Core\ExtensionManager;
+use MJS\TopSort\Implementations\StringSort;
 
 class Resolver
 {
@@ -16,7 +17,6 @@ class Resolver
      */
     protected $extensions = [];
     protected $resolvedExtensions = [];
-    protected $loadedExtensions = [];
 
     protected $cmsVersion;
 
@@ -33,9 +33,31 @@ class Resolver
         $this->cmsVersion = $container->get('version');
     }
 
+    protected function createResolver(): StringSort
+    {
+        $resolver = new StringSort();
+
+        foreach ($this->extensions as $extensionName => $extensionInfo) {
+            $resolver->add($extensionName, array_keys($extensionInfo->getDeps()));
+        }
+        return $resolver;
+    }
+
 
     protected function resolveExtensions($extensions)
     {
+        $resolver  = $this->createResolver();
+
+        $resolvedExtensions = $resolver->sort();
+        usort($extensions, function ($a, $b) use ($resolvedExtensions) {
+            $aIndex = intval(array_search($a->getExtensionName(), $resolvedExtensions));
+            $bIndex = intval(array_search($b->getExtensionName(), $resolvedExtensions));
+
+            return $aIndex - $bIndex;
+        });
+
+
+
         return $extensions;
     }
 

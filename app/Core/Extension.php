@@ -8,6 +8,8 @@ use Slim\App;
 
 abstract class Extension implements ExtensionConstract
 {
+    protected $name;
+
     protected $isBuiltIn = false;
 
     /**
@@ -32,6 +34,16 @@ abstract class Extension implements ExtensionConstract
     protected $extensionDir;
 
     protected $deps = [];
+
+    public function setExtensionName($name)
+    {
+        $this->name = trim($name);
+    }
+
+    public function getExtensionName()
+    {
+        return $this->name;
+    }
 
     public function isBuiltIn(): bool
     {

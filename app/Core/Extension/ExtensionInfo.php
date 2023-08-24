@@ -20,7 +20,7 @@ class ExtensionInfo
 
     public function setExtensionName($name)
     {
-        return $this->name = $name;
+        return $this->name = trim($name);
     }
 
     public function setDescription($description)
@@ -66,6 +66,7 @@ class ExtensionInfo
              */
             $extension = new $this->extensionClass();
             $extension->setExtensionDir($this->rootDir);
+            $extension->setExtensionName($this->getExtensionName());
 
             return $extension;
         }
