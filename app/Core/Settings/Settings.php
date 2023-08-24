@@ -7,7 +7,7 @@ namespace App\Core\Settings;
 class Settings implements SettingsInterface
 {
     private array $settings;
-    private array $builtInExtensions = ['admin', 'react', 'master-layout'];
+    private array $builtInExtensions = ['layout', 'react', 'blueprint', 'text-editor', 'dashboard'];
 
     public function __construct(array $settings)
     {
