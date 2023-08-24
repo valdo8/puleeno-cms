@@ -13,6 +13,3 @@
 [submodule "extensions/blueprint"]
 	path = extensions/blueprint
 	url = https://github.com/puleeno-cms/blueprint-extension.git
-[submodule "extensions/quill-editor"]
-	path = extensions/quill-editor
-	url = https://github.com/puleeno-cms/quill-editor-extension.git
