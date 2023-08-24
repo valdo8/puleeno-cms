@@ -39,6 +39,7 @@
         "slim/slim": "^4.12",
         "slim/twig-view": "^3.3",
         "spatie/schema-org": "^3.9",
+        "tebazil/db-seeder": "^1.0",
         "twig/twig": "^3.7",
         "vlucas/phpdotenv": "^5.5"
     },
