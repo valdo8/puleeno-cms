@@ -107,6 +107,10 @@ final class Bootstrap
         $middleware($this->app);
 
         // Register routes
+        $routes = require __DIR__ . '/../configs/routes.php';
+        $routes($app);
+
+        // Register routes
         $this->app->options('/{routes:.*}', function (Request $request, Response $response) {
             // CORS Pre-Flight OPTIONS Request Handler
             return $response;
