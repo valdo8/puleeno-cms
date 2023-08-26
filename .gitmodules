@@ -16,3 +16,6 @@
 [submodule "extensions/file-manager"]
 	path = extensions/file-manager
 	url = https://github.com/puleeno-cms/file-manager-extension.git
+[submodule "extensions/seo"]
+	path = extensions/seo
+	url = https://github.com/puleeno-cms/seo-extension.git
