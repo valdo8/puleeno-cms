@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Core\Application;
+use App\Core\Factory\AppFactory;
 use DI\ContainerBuilder;
 use Exception;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\App;
-use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
@@ -24,7 +24,7 @@ class TestCase extends PHPUnit_TestCase
      * @return App
      * @throws Exception
      */
-    protected function getAppInstance(): App
+    protected function getAppInstance(): Application
     {
         // Instantiate PHP-DI ContainerBuilder
         $containerBuilder = new ContainerBuilder();
@@ -48,15 +48,12 @@ class TestCase extends PHPUnit_TestCase
 
         // Instantiate the app
         AppFactory::setContainer($container);
-        $app = AppFactory::create();
+        $app = AppFactory::createApp();
 
         // Register middleware
         $middleware = require __DIR__ . '/../configs/middleware.php';
         $middleware($app);
 
-        // Register routes
-        $routes = require __DIR__ . '/../configs/routes.php';
-        $routes($app);
 
         return $app;
     }
