@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
+use Slim\Psr7\Response;
 use Slim\Psr7\Uri;
 
 class TestCase extends PHPUnit_TestCase
@@ -56,7 +57,12 @@ class TestCase extends PHPUnit_TestCase
 
         // Register routes
         $routes = require __DIR__ . '/../configs/routes.php';
+        $app->options('/{routes:.*}', function (Request $request, Response $response) {
+            // CORS Pre-Flight OPTIONS Request Handler
+            return $response;
+        });
         $routes($app);
+
 
         return $app;
     }
