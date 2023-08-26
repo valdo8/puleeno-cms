@@ -16,6 +16,5 @@ class AddUserTables extends Migration
      */
     public function down()
     {
-
     }
 }
