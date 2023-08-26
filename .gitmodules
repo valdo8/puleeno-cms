@@ -13,3 +13,6 @@
 [submodule "extensions/blueprint"]
 	path = extensions/blueprint
 	url = https://github.com/puleeno-cms/blueprint-extension.git
+[submodule "extensions/file-upload"]
+	path = extensions/file-upload
+	url = https://github.com/puleeno-cms/file-upload-extension.git
