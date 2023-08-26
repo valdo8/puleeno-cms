@@ -48,7 +48,7 @@ class TestCase extends PHPUnit_TestCase
 
         // Instantiate the app
         AppFactory::setContainer($container);
-        $app = AppFactory::create();
+        $app = AppFactory::createApp();
 
         // Register middleware
         $middleware = require __DIR__ . '/../configs/middleware.php';
