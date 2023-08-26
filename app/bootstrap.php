@@ -2,7 +2,10 @@
 
 namespace Puleeno;
 
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
+use App\Core\Factory\AppFactory;
 use App\Core\HookManager;
 use App\Core\Settings\SettingsInterface;
 use App\Http\Handlers\HttpErrorHandler;
@@ -14,7 +17,6 @@ use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
 use Slim\App;
-use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
 define('ROOT_PATH', dirname(__DIR__));
@@ -98,15 +100,17 @@ final class Bootstrap
         // Instantiate the app
         AppFactory::setContainer(($this->container = $containerBuilder->build()));
 
-        $this->app = AppFactory::create();
+        $this->app = AppFactory::createApp();
 
         // Register middleware
         $middleware = $this->loadSetting('middleware');
         $middleware($this->app);
 
         // Register routes
-        $routes = $this->loadSetting('routes');
-        $routes($this->app);
+        $this->app->options('/{routes:.*}', function (Request $request, Response $response) {
+            // CORS Pre-Flight OPTIONS Request Handler
+            return $response;
+        });
 
         // Added CMS version to DI
         $mainComposerFile = sprintf('%s/composer.json', ROOT_PATH);

@@ -22,7 +22,7 @@ abstract class Extension implements ExtensionConstract
     /**
      * Slim app
      *
-     * @var \Slim\App
+     * @var \App\Core\Application
      */
     protected $app;
 
@@ -50,7 +50,7 @@ abstract class Extension implements ExtensionConstract
         return boolval($this->isBuiltIn);
     }
 
-    public function setApp(App &$app)
+    public function setApp(Application &$app)
     {
         $this->app = $app;
     }
