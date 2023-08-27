@@ -84,8 +84,9 @@ class RequestResponse extends SlimRequestResponse
         $methodRefl = new ReflectionClosure($callable);
 
         if ($methodRefl->getNumberOfParameters() > 0) {
+            $maxParamIndex = $methodRefl->getNumberOfParameters() - 1;
             foreach ($methodRefl->getParameters() as $index => $param) {
-                $isRouteArgs = $index === ($methodRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
+                $isRouteArgs = $index === $maxParamIndex && $this->checkParamIsRouteArgs($param);
 
                 $params[] = $this->resolveTheParamValue(
                     $param->getType(),
@@ -103,8 +104,9 @@ class RequestResponse extends SlimRequestResponse
         $funcRefl = new ReflectionFunction($callable);
 
         if ($funcRefl->getNumberOfParameters() > 0) {
+            $maxParamIndex = $funcRefl->getNumberOfParameters() - 1;
             foreach ($funcRefl->getParameters() as $index => $param) {
-                $isRouteArgs = $index === ($funcRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
+                $isRouteArgs = $maxParamIndex && $this->checkParamIsRouteArgs($param);
 
                 $params[] = $this->resolveTheParamValue(
                     $param->getType(),
@@ -122,8 +124,9 @@ class RequestResponse extends SlimRequestResponse
         if (count($callable) === 2) {
             $methodRefl = new ReflectionMethod($callable[0], $callable[1]);
             if ($methodRefl->getNumberOfParameters() > 0) {
+                $maxParamIndex = $methodRefl->getNumberOfParameters() - 1;
                 foreach ($methodRefl->getParameters() as $index => $param) {
-                    $isRouteArgs = $index === ($methodRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
+                    $isRouteArgs = $index === $maxParamIndex && $this->checkParamIsRouteArgs($param);
                     $params[] = $this->resolveTheParamValue(
                         $param->getType(),
                         $isRouteArgs ? 'args' : $param->getName()
