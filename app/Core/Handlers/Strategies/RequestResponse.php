@@ -12,7 +12,10 @@ use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionType;
 use Slim\Handlers\Strategies\RequestResponse as SlimRequestResponse;
+use Throwable;
 
 class RequestResponse extends SlimRequestResponse
 {
@@ -41,20 +44,19 @@ class RequestResponse extends SlimRequestResponse
         }
 
         // Resolved params order
-        $params = $this->resolveParams($callable, $request, $response);
-
-        // Send $routeArguments to last param
-        array_push(
-            $params,
+        $params = $this->resolveParams(
+            $callable,
+            $request,
+            $response,
             $routeArguments
         );
 
         return call_user_func_array($callable, $params);
     }
 
-    protected function resolveTheParamValue(?ReflectionNamedType $type, string $namedParam)
+    protected function resolveTheParamValue(?ReflectionType $type, string $namedParam)
     {
-        if (!is_null($type) && $this->container->has($type->getName())) {
+        if (!is_null($type) && $type instanceof ReflectionNamedType && $this->container->has($type->getName())) {
             return $this->container->get($type->getName());
         }
         if ($this->container->has($namedParam)) {
@@ -63,17 +65,31 @@ class RequestResponse extends SlimRequestResponse
         throw new CanNotResolveParamException();
     }
 
+    protected function checkParamIsRouteArgs(ReflectionParameter $param): bool
+    {
+        if (in_array($param->getName(), ['args', 'routeArgs', 'routeArguments'])) {
+            return true;
+        }
+        if (is_null($param->getType())) {
+            return true;
+        }
+
+        return $param->getType()->getName() === 'array';
+    }
+
 
     protected function resolveParamsForClosure($callable)
     {
         $params = [];
-
         $methodRefl = new ReflectionClosure($callable);
+
         if ($methodRefl->getNumberOfParameters() > 0) {
-            foreach ($methodRefl->getParameters() as $param) {
+            foreach ($methodRefl->getParameters() as $index => $param) {
+                $isRouteArgs = $index === ($methodRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
+
                 $params[] = $this->resolveTheParamValue(
                     $param->getType(),
-                    $param->getName()
+                    $isRouteArgs ? 'args' : $param->getName()
                 );
             }
         }
@@ -84,14 +100,15 @@ class RequestResponse extends SlimRequestResponse
     protected function resolveParamsForStaticMethod($callable): array
     {
         $params = [];
-
         $funcRefl = new ReflectionFunction($callable);
 
         if ($funcRefl->getNumberOfParameters() > 0) {
-            foreach ($funcRefl->getParameters() as $param) {
+            foreach ($funcRefl->getParameters() as $index => $param) {
+                $isRouteArgs = $index === ($funcRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
+
                 $params[] = $this->resolveTheParamValue(
                     $param->getType(),
-                    $param->getName()
+                    $isRouteArgs ? 'args' : $param->getName()
                 );
             }
         }
@@ -105,10 +122,11 @@ class RequestResponse extends SlimRequestResponse
         if (count($callable) === 2) {
             $methodRefl = new ReflectionMethod($callable[0], $callable[1]);
             if ($methodRefl->getNumberOfParameters() > 0) {
-                foreach ($methodRefl->getParameters() as $param) {
+                foreach ($methodRefl->getParameters() as $index => $param) {
+                    $isRouteArgs = $index === ($methodRefl->getNumberOfParameters() - 1) && $this->checkParamIsRouteArgs($param);
                     $params[] = $this->resolveTheParamValue(
                         $param->getType(),
-                        $param->getName()
+                        $isRouteArgs ? 'args' : $param->getName()
                     );
                 }
             }
@@ -117,7 +135,7 @@ class RequestResponse extends SlimRequestResponse
         return $params;
     }
 
-    protected function resolveParams($callable, $request, $response): array
+    protected function resolveParams($callable, $request, $response, $args): array
     {
         try {
             if ($callable instanceof Closure) {
@@ -131,10 +149,11 @@ class RequestResponse extends SlimRequestResponse
                 }
             }
         } catch (CanNotResolveParamException $e) {
+            // Ignore this case
+        } catch (Throwable $e) {
             // Send PHP error logs to debug
             error_log($e->getMessage());
         }
-
-        return [$request, $response];
+        return [$request, $response, $args];
     }
 }

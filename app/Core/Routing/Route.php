@@ -95,6 +95,8 @@ class Route extends SlimRoute
         $container->set(ResponseInterface::class, $response);
         $container->set('response', $response);
 
+        $container->set('args', $this->arguments);
+
         // Auto resolve params
         if (is_a($strategy, RequestResponse::class)) {
             return $strategy->resolve($callable, $request, $response, $this->arguments, $container);
