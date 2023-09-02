@@ -22,8 +22,8 @@ class Controller implements ControllerConstract
     public function view(
         $template,
         $data = [],
-        $extensionName = null,
-        ResponseInterface $response = null
+        ResponseInterface $response = null,
+        $extensionName = null
     ): ResponseInterface {
         if (empty($extensionName)) {
             $extensionName = $this->getExtensionName();

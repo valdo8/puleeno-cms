@@ -11,7 +11,7 @@ interface ControllerConstract
     public function view(
         $template,
         $data = [],
-        $extensionName = null,
-        ResponseInterface $response = null
+        ResponseInterface $response = null,
+        $extensionName = null
     ): ResponseInterface;
 }
