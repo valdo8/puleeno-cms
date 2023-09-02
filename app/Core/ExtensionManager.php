@@ -142,8 +142,9 @@ class ExtensionManager
 
             $extension->registerRoutes();
 
-            if (method_exists($extension, 'sendResponse')) {
-                HookManager::addFilter('response', [$extension, 'sendResponse']);
+            $callable = $extension->getResponeCallback();
+            if (!is_null($callable)) {
+                HookManager::addFilter('response', $callable);
             }
         }
     }

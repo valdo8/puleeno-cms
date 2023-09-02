@@ -74,7 +74,7 @@ class RequestResponse extends SlimRequestResponse
             return true;
         }
 
-        return $param->getType()->getName() === 'array';
+        return !is_null($param->getType()) && $param->getType()->getName() === 'array';
     }
 
 

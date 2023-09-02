@@ -20,8 +20,9 @@ class Settings implements SettingsInterface
     public function get(string $key = '', $defaultValue = null)
     {
         if (empty($key)) {
-            $this->settings;
+            return $this->settings;
         }
+
         if (isset($this->settings[$key])) {
             return $this->settings[$key];
         }
