@@ -135,14 +135,21 @@ final class Bootstrap
         $this->loadComposer();
         $this->setupEnvironment();
         $this->setup();
+        $this->loadExtensions();
         $this->run();
+    }
+
+    protected function loadExtensions()
+    {
+        // Execute loaded extensions hooks
+        HookManager::executeAction('loaded_extensions');
+
+        // Run all active extensions
+        ExtensionManager::getInstance()->runActiveExtensions();
     }
 
     protected function run()
     {
-        // Run all active extensions
-        ExtensionManager::getInstance()->runActiveExtensions();
-
         $this->writeErrorLogs(
             $this->setupHttpErrorHandle()
         );

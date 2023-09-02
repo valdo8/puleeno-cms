@@ -25,6 +25,8 @@ interface ExtensionConstract
 
     public function setup();
 
+    public function getResponeCallback(): ?callable;
+
     public function registerRoutes();
 
     public function registerMiddlewares();

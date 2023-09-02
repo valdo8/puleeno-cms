@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use App\Core\Routing\RouteCollectorProxy;
+use App\Core\Routing\RouteCollector;
 use App\Http\ResponseEmitter\ResponseEmitter;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -19,6 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
+use PuleenoCMS\Exceptions\InvalidApplicationException;
+use Slim\App;
 use Slim\CallableResolver;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Interfaces\CallableResolverInterface;
@@ -34,7 +36,7 @@ use Slim\Routing\RouteRunner;
 
 use function strtoupper;
 
-class Application extends RouteCollectorProxy implements RequestHandlerInterface
+class Application extends App implements RequestHandlerInterface
 {
     /**
      * Current version
@@ -47,6 +49,8 @@ class Application extends RouteCollectorProxy implements RequestHandlerInterface
 
     protected MiddlewareDispatcherInterface $middlewareDispatcher;
 
+    protected static $instance;
+
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         ?ContainerInterface $container = null,
@@ -55,12 +59,15 @@ class Application extends RouteCollectorProxy implements RequestHandlerInterface
         ?RouteResolverInterface $routeResolver = null,
         ?MiddlewareDispatcherInterface $middlewareDispatcher = null
     ) {
-        parent::__construct(
-            $responseFactory,
-            $callableResolver ?? new CallableResolver($container),
-            $container,
-            $routeCollector
-        );
+        // Init property values
+        $callableResolver = $callableResolver ?? new CallableResolver($container);
+        $routeCollector = $routeCollector ?? new RouteCollector($responseFactory, $callableResolver, $container);
+
+        $this->responseFactory = $responseFactory;
+        $this->callableResolver = $callableResolver;
+        $this->container = $container;
+        $this->routeCollector = $routeCollector;
+        $this->groupPattern = '';
 
         $this->routeResolver = $routeResolver ?? new RouteResolver($this->routeCollector);
         $routeRunner = new RouteRunner($this->routeResolver, $this->routeCollector->getRouteParser(), $this);
@@ -72,6 +79,10 @@ class Application extends RouteCollectorProxy implements RequestHandlerInterface
         }
 
         $this->middlewareDispatcher = $middlewareDispatcher;
+
+        if (is_null(static::$instance)) {
+            static::$instance = &$this;
+        }
     }
 
     /**
@@ -215,5 +226,13 @@ class Application extends RouteCollectorProxy implements RequestHandlerInterface
         }
 
         return $response;
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            throw new InvalidApplicationException('The application is not initialized');
+        }
+        return static::$instance;
     }
 }

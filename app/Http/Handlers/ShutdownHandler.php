@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Handlers;
 
-use App\Application\ResponseEmitter\ResponseEmitter;
+use App\Http\ResponseEmitter\ResponseEmitter;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpInternalServerErrorException;
 

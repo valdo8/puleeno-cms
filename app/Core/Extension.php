@@ -113,4 +113,9 @@ abstract class Extension implements ExtensionConstract
     {
         //
     }
+
+    public function getResponeCallback(): ?callable
+    {
+        return null;
+    }
 }

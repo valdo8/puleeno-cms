@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Exceptions\NotCallableException;
 use RuntimeException;
 
 class HookManager
@@ -33,8 +34,11 @@ class HookManager
         return call_user_func_array([$instance, $name], $arguments);
     }
 
-    public static function addAction($hookName, callable $fn)
+    public static function addAction($hookName, $fn)
     {
+        if (!is_callable($fn)) {
+            throw new NotCallableException(var_export($fn, true) . " is can not callable");
+        }
         $instance = static::getInstance();
         if (!isset($instance->actions[$hookName])) {
             $instance->actions[$hookName] = [];
@@ -43,8 +47,11 @@ class HookManager
         $instance->actions[$hookName][] = $fn;
     }
 
-    public static function addFilter($hookName, callable $fn)
+    public static function addFilter($hookName, $fn)
     {
+        if (!is_callable($fn)) {
+            throw new NotCallableException(var_export($fn, true) . " is can not callable");
+        }
         $instance = static::getInstance();
         if (!isset($instance->filters[$hookName])) {
             $instance->filters[$hookName] = [];
