@@ -8,5 +8,10 @@ interface ControllerConstract
 {
     public function getExtensionName(): string;
 
-    public function view($template, $data = [], $extensionName = null, ResponseInterface $response = null): ResponseInterface;
+    public function view(
+        $template,
+        $data = [],
+        $extensionName = null,
+        ResponseInterface $response = null
+    ): ResponseInterface;
 }
