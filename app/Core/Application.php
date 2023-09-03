@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Constracts\ApplicationConstract;
 use App\Core\Routing\RouteCollector;
 use App\Http\ResponseEmitter\ResponseEmitter;
 use Psr\Container\ContainerInterface;
@@ -36,7 +37,7 @@ use Slim\Routing\RouteRunner;
 
 use function strtoupper;
 
-class Application extends App implements RequestHandlerInterface
+class Application extends App implements RequestHandlerInterface, ApplicationConstract
 {
     /**
      * Current version

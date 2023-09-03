@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constracts\BackendControllerConstract;
 use App\Constracts\ControllerConstract;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
@@ -19,6 +20,11 @@ class Controller implements ControllerConstract
         return false;
     }
 
+    public function isDashboardController(): bool
+    {
+        return is_a($this, BackendControllerConstract::class);
+    }
+
     public function view(
         $template,
         $data = [],
@@ -28,6 +34,12 @@ class Controller implements ControllerConstract
         if (empty($extensionName)) {
             $extensionName = $this->getExtensionName();
         }
+
+        if (!is_array($data)) {
+            $data = [];
+        }
+        $data['isDashboard'] = $this->isDashboardController();
+
         return extensionView($extensionName, $template, $data, $response);
     }
 }

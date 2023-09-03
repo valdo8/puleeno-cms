@@ -2,6 +2,7 @@
 
 namespace Puleeno;
 
+use App\Common\Option;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
@@ -124,6 +125,7 @@ final class Bootstrap
             $this->container->set('version', $version);
         }
 
+        $this->container->set('option', Option::getInstance());
 
         // Load extension system
         ExtensionManager::getInstance()->loadExtensions($this->app, $this->container);
