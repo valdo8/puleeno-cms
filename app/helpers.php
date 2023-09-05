@@ -20,38 +20,32 @@ if (!function_exists('array_get')) {
     }
 }
 
-if (!function_exists('getPath')) {
-    function getPath($name)
+if (!function_exists('get_path')) {
+    function get_path($name)
     {
         return Constants::path($name);
     }
 }
 
 
-if (!function_exists('getOption')) {
-    function getOption($optionName, $defaultValue = null)
+if (!function_exists('get_option')) {
+    function get_option($optionName, $defaultValue = null)
     {
         return Option::getInstance()->get($optionName, $defaultValue);
     }
 }
 
-if (!function_exists('extractExtensionNameFromFilePath')) {
-    function extractExtensionNameFromFilePath($path)
-    {
-    }
-}
-
 
 if (!function_exists('add_action')) {
-    function add_action($hookName, $fn)
+    function add_action($hookName, $fn, $priority = 10, $paramsQuantity = 1)
     {
-        return HookManager::addAction($hookName, $fn);
+        return HookManager::addAction($hookName, $fn, $priority, $paramsQuantity);
     }
 }
 
 if (!function_exists('add_filter')) {
-    function add_filter($hookName, $fn)
+    function add_filter($hookName, $fn, $priority = 10, $paramsQuantity = 1)
     {
-        return HookManager::addFilter($hookName, $fn);
+        return HookManager::addFilter($hookName, $fn, $priority, $paramsQuantity);
     }
 }

@@ -12,8 +12,8 @@ class Controller implements ControllerConstract
     public function getExtensionName(): string
     {
         $class_info = new ReflectionClass($this);
-        if (strpos($class_info->getFileName(), getPath('extension')) !== false) {
-            $extensionPath = str_replace(getPath('extension') . '/', '', $class_info->getFileName());
+        if (strpos($class_info->getFileName(), get_path('extension')) !== false) {
+            $extensionPath = str_replace(get_path('extension') . '/', '', $class_info->getFileName());
             $extensionPathArr = explode(DIRECTORY_SEPARATOR, $extensionPath);
             return $extensionPathArr[0];
         }

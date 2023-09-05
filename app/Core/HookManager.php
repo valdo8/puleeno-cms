@@ -2,6 +2,9 @@
 
 namespace App\Core;
 
+use App\Constracts\HookConstract;
+use App\Core\Hooks\ActionHook;
+use App\Core\Hooks\FilterHook;
 use App\Exceptions\NotCallableException;
 use RuntimeException;
 
@@ -34,7 +37,7 @@ class HookManager
         return call_user_func_array([$instance, $name], $arguments);
     }
 
-    public static function addAction($hookName, $fn)
+    public static function addAction($hookName, $fn, $priority = 10, $paramsQuantity = 1)
     {
         if (!is_callable($fn)) {
             throw new NotCallableException(var_export($fn, true) . " is can not callable");
@@ -44,10 +47,10 @@ class HookManager
             $instance->actions[$hookName] = [];
         }
 
-        $instance->actions[$hookName][] = $fn;
+        $instance->actions[$hookName][] = ActionHook::create($fn, $priority, $paramsQuantity);
     }
 
-    public static function addFilter($hookName, $fn)
+    public static function addFilter($hookName, $fn, $priority = 10, $paramsQuantity = 1)
     {
         if (!is_callable($fn)) {
             throw new NotCallableException(var_export($fn, true) . " is can not callable");
@@ -57,25 +60,45 @@ class HookManager
             $instance->filters[$hookName] = [];
         }
 
-        $instance->filters[$hookName][] = $fn;
+        $instance->filters[$hookName][] = FilterHook::create($fn, $priority, $paramsQuantity);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param \App\Constracts\HookConstract[] $hooks
+     * @return void
+     */
+    protected function sortHookByPriority(array $hooks)
+    {
+        usort($hooks, function (HookConstract $hook1, HookConstract $hook2) {
+            return $hook1->getPriority() - $hook2->getPriority();
+        });
+        return $hooks;
+    }
+
+    /**
+     * @param string $hookName
+     *
+     * @return \App\Core\Hooks\ActionHook[]
+     */
     public function getActionsByHook($hookName)
     {
         if (isset($this->actions[$hookName])) {
-            return $this->actions[$hookName];
+            return $this->sortHookByPriority($this->actions[$hookName]);
         }
         return [];
     }
 
     /**
      * @param string $hookName
-     * @return callable[]
+     *
+     * @return \App\Core\Hooks\FilterHook[]
      */
     public function getFiltersByHook($hookName): array
     {
         if (isset($this->filters[$hookName])) {
-            return $this->filters[$hookName];
+            return $this->sortHookByPriority($this->filters[$hookName]);
         }
         return [];
     }
@@ -83,8 +106,14 @@ class HookManager
     public static function executeAction($hookName, ...$params)
     {
         $instance = static::getInstance();
-        foreach ($instance->getActionsByHook($hookName) as $fn) {
-            call_user_func_array($fn, $params);
+        $hooks = $instance->getActionsByHook($hookName);
+
+        foreach ($hooks as $hook) {
+            $args = array_splice($params, 0, $hook->getParamsQuantity());
+            call_user_func_array(
+                $hook->getCallable(),
+                $args
+            );
         }
     }
 
@@ -92,8 +121,16 @@ class HookManager
     {
         $instance = static::getInstance();
         $value = count($params) > 0 ? $params[0] : null;
-        foreach ($instance->getFiltersByHook($hookName) as $fn) {
-            $value = call_user_func_array($fn, $params);
+        $hooks = $instance->getFiltersByHook($hookName);
+        foreach ($hooks as $hook) {
+            $value = call_user_func_array(
+                $hook->getCallable(),
+                array_splice(
+                    $params,
+                    0,
+                    $hook->getParamsQuantity()
+                )
+            );
         }
 
         return $value;
