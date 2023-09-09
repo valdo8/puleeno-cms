@@ -2,7 +2,9 @@
 
 use App\Common\Constants;
 use App\Common\Option;
+use App\Core\Application;
 use App\Core\HookManager;
+use Puleeno\Bootstrap;
 
 if (!function_exists('array_get')) {
     function array_get($arr, $keyStr, $defaultValue = null)
@@ -47,5 +49,12 @@ if (!function_exists('add_filter')) {
     function add_filter($hookName, $fn, $priority = 10, $paramsQuantity = 1)
     {
         return HookManager::addFilter($hookName, $fn, $priority, $paramsQuantity);
+    }
+}
+
+if (!function_exists('get_app')) {
+    function get_app(): Application
+    {
+        return Bootstrap::getInstance()->getApp();
     }
 }

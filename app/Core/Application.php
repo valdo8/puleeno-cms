@@ -31,7 +31,6 @@ use Slim\Interfaces\RouteResolverInterface;
 use Slim\Middleware\BodyParsingMiddleware;
 use Slim\Middleware\ErrorMiddleware;
 use Slim\Middleware\RoutingMiddleware;
-use Slim\MiddlewareDispatcher;
 use Slim\Routing\RouteResolver;
 use Slim\Routing\RouteRunner;
 

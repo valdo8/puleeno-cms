@@ -5,21 +5,16 @@ namespace App\Core;
 use App\Constracts\ExtensionConstract;
 use App\Core\Extension\ExtensionInfo;
 use App\Core\Extension\Resolver as ExtensionResolver;
+use App\Exceptions\NotFoundExtensionException;
 use RuntimeException;
 
 /**
- * @method static self registerModule(string $moduleName, \App\Constracts\ExtensionConstract $extension)
- * @method static \App\Constracts\ExtensionConstract getModule(string $extensionName)
+ * @method static \App\Constracts\ExtensionConstract getExtension(string $extensionName, $throwException = true)
  * @method static boolean hasExtension($extensionName)
  * @method static void loadExtensions()
  */
 class ExtensionManager
 {
-    protected $registerModule;
-    protected $getModule;
-    protected $hasExtension;
-
-
     protected $extensions = [];
 
     protected $builtInPriority = [
@@ -32,23 +27,6 @@ class ExtensionManager
 
     protected function __construct()
     {
-        $this->registerModule = function (string $moduleName, ExtensionConstract $extension): self {
-            $this->extensions[$moduleName] = $extension;
-
-            return $this;
-        };
-
-        $this->getModule = function ($moduleName): ExtensionConstract {
-            if (isset($this->extensions[$moduleName])) {
-                return $this->extensions[$moduleName];
-            }
-            throw new \Exception("Module {$moduleName} is not registered.");
-        };
-
-
-        $this->hasExtension = function ($extension): bool {
-            return isset($this->extensions[$extension]);
-        };
     }
 
     public static function getInstance()
@@ -62,9 +40,9 @@ class ExtensionManager
     public static function __callStatic($name, $arguments)
     {
         $instance = static::getInstance();
-        $callable = $instance->$name;
+        $callable = [$instance, $name];
 
-        if (!property_exists($instance, $name) || !is_callable($callable)) {
+        if (!is_callable($callable)) {
             throw new RuntimeException(sprintf("The method %s::%s() is not defined", __CLASS__, $name));
         }
         return call_user_func_array($callable, $arguments);
@@ -126,10 +104,10 @@ class ExtensionManager
 
     public function addActiveExtension(ExtensionConstract $extension)
     {
-        array_push($this->activeExtensions, $extension);
+        $this->activeExtensions[$extension->getExtensionName()] = $extension;
     }
 
-    public function loadExtensions(&$app, &$container)
+    public function init(&$app, &$container)
     {
         $instance = static::getInstance();
         $extensionResolver = new ExtensionResolver($app, $container);
@@ -170,5 +148,20 @@ class ExtensionManager
         foreach ($this->getActiveExtensions() as $extension) {
             $extension->run();
         }
+    }
+
+    protected function getExtension($extensionName, $throwException = true)
+    {
+        if (isset($this->activeExtensions[$extensionName])) {
+            return $this->activeExtensions[$extensionName];
+        }
+        if ($throwException) {
+            throw new NotFoundExtensionException($extensionName);
+        }
+    }
+
+    protected function hasExtension($extensionName)
+    {
+        return isset($this->activeExtensions[$extensionName]);
     }
 }

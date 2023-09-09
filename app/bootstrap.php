@@ -3,6 +3,8 @@
 namespace Puleeno;
 
 use App\Common\Option;
+use App\Constracts\AssetTypeEnum;
+use App\Core\AssetManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
@@ -46,6 +48,22 @@ final class Bootstrap
      */
     protected $request;
 
+    protected static $instance;
+
+    protected ExtensionManager $extensionManager;
+
+    protected function __construct()
+    {
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new self();
+        }
+        return static::$instance;
+    }
+
     protected function init()
     {
         //
@@ -77,6 +95,12 @@ final class Bootstrap
             $dotenv = Dotenv::create($repository, ROOT_PATH);
             $dotenv->load();
         }
+
+        // Init extension manager
+        $this->extensionManager = ExtensionManager::getInstance();
+
+        // Init asset type enum
+        AssetTypeEnum::init();
     }
 
     protected function setup()
@@ -128,7 +152,7 @@ final class Bootstrap
         $this->container->set('option', Option::getInstance());
 
         // Load extension system
-        ExtensionManager::getInstance()->loadExtensions($this->app, $this->container);
+        $this->extensionManager->init($this->app, $this->container);
     }
 
     public function boot()
@@ -147,7 +171,23 @@ final class Bootstrap
         HookManager::executeAction('loaded_extensions');
 
         // Run all active extensions
-        ExtensionManager::getInstance()->runActiveExtensions();
+        $this->extensionManager->runActiveExtensions();
+    }
+
+    protected function setupAssets()
+    {
+        // Setup assets after extensions are loaded
+        $assetManager = AssetManager::getInstance();
+
+        // Setup assets in <head> tag
+        HookManager::addAction('head', [$assetManager, 'printInitHeadScripts'], 33);
+        HookManager::addAction('head', [$assetManager, 'printHeadAssets'], 66);
+        HookManager::addAction('head', [$assetManager, 'printExecuteHeadScripts'], 99);
+
+        // Setup asset before </body> tag
+        HookManager::addAction('footer', [$assetManager, 'printFooterInitScripts'], 33);
+        HookManager::addAction('footer', [$assetManager, 'printFooterAssets'], 66);
+        HookManager::addAction('footer', [$assetManager, 'executeFooterScripts'], 99);
     }
 
     protected function run()
@@ -155,6 +195,8 @@ final class Bootstrap
         $this->writeErrorLogs(
             $this->setupHttpErrorHandle()
         );
+
+        $this->setupAssets();
 
         // Run App & Emit Response
         $response = $this->app->handle($this->request);
