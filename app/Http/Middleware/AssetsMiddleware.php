@@ -16,6 +16,13 @@ class AssetsMiddleware implements MiddlewareConstract
         return 9999;
     }
 
+    protected function getSiteTitle() {
+        return HookManager::applyFilters(
+            'title',
+            get_option('site_name', 'Puleeno CMS')
+        );
+    }
+
     protected function getHeadAssets()
     {
         ob_start();
@@ -45,10 +52,12 @@ class AssetsMiddleware implements MiddlewareConstract
         $template = (string) $response->getBody();
 
         $template = str_replace([
+            '<!--site:title-->',
             '<!--asset:head-->',
-            '<!--asset:start_body-->',
+            '<!--html:start_body-->',
             '<!--asset:footer-->'
         ], [
+            $this->getSiteTitle(),
             $this->getHeadAssets(),
             $this->getOpenBodyTags(),
             $this->getFooterAssets()
