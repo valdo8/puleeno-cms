@@ -3,10 +3,20 @@
 namespace App\Core\Assets;
 
 use App\Core\ExternalAsset;
+use App\Core\HookManager;
 
 class CascadingStyleSheets extends ExternalAsset
 {
     public function printHtml()
     {
+        echo HookManager::applyFilters(
+            'print_css_html',
+            sprintf(
+                '<link href="%1$s" type="text/css" />',
+                HookManager::applyFilters("asset_css_url", $this->getUrl(), $this->id, $this)
+            ),
+            $this->getId(),
+            $this
+        );
     }
 }

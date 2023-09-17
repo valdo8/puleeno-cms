@@ -2,9 +2,9 @@
 
 namespace App\Core;
 
-use App\Constracts\AssetConstract;
+use App\Constracts\Assets\AssetConstract;
 use App\Constracts\AssetTypeEnum;
-use App\Constracts\ExternalAssetConstract;
+use App\Constracts\Assets\AssetExternalConstract;
 use App\Core\Assets\AssetOptions;
 use App\Core\Assets\AssetUrl;
 use App\Core\Assets\Bucket;
@@ -41,7 +41,7 @@ final class AssetManager
         $priority = 10
     ): AssetConstract {
         $asset = Helper::createAssetByAssetType($id, $assetType);
-        if ($asset instanceof ExternalAssetConstract) {
+        if ($asset instanceof AssetExternalConstract) {
             $asset->setUrl($url);
         }
         $asset->setDeps($deps);
@@ -60,13 +60,21 @@ final class AssetManager
         $version = null,
         AssetOptions $assetOptions = null,
         $priority = 10
-    ): self {
+    ): AssetConstract {
+        $asset = static::create(
+            (string) $id,
+            $url,
+            $assetType,
+            $deps,
+            $version,
+            $assetOptions,
+            $priority
+        );
         $instance = static::getInstance();
         $instance->getFrontendBucket()
-            ->addAsset(
-                static::create($id, $url, $assetType, $deps, $version, $assetOptions, $priority)
-            );
-        return $instance;
+            ->addAsset($asset);
+
+        return $asset;
     }
 
     public static function registerBackendAsset(
@@ -77,13 +85,16 @@ final class AssetManager
         $version = null,
         AssetOptions $assetOptions = null,
         $priority = 10
-    ): self {
+    ): AssetConstract {
+        /**
+         * @var \App\Core\Assets\JavaScript
+         */
+        $asset = static::create($id, $url, $assetType, $deps, $version, $assetOptions, $priority);
         $instance = static::getInstance();
         $instance->getBackendBucket()
-            ->addAsset(
-                static::create($id, $url, $assetType, $deps, $version, $assetOptions, $priority)
-            );
-        return $instance;
+            ->addAsset($asset);
+
+        return $asset;
     }
 
     public function getFrontendBucket(): Bucket
@@ -96,27 +107,55 @@ final class AssetManager
         return $this->backendBucket;
     }
 
+    protected function getActiveBucket(): Bucket
+    {
+        return !Helper::isDashboard()
+            ? $this->getFrontendBucket()
+            : $this->getBackendBucket();
+    }
+
     public function printInitHeadScripts()
     {
+        foreach ($this->getActiveBucket()->getInitScripts(false) as $initScript) {
+            $initScript->printHtml();
+        }
     }
 
     public function printHeadAssets()
     {
+        foreach ($this->getActiveBucket()->getStylesheets(true) as $css) {
+            $css->printHtml();
+        }
+        foreach ($this->getActiveBucket()->getJs(false, true) as $js) {
+            $js->printHtml();
+        }
     }
 
     public function printExecuteHeadScripts()
     {
+        foreach ($this->getActiveBucket()->getExecuteScripts(false) as $executeScript) {
+            $executeScript->printHtml();
+        }
     }
 
     public function printFooterInitScripts()
     {
+        foreach ($this->getActiveBucket()->getInitScripts(true) as $initScript) {
+            $initScript->printHtml();
+        }
     }
 
     public function printFooterAssets()
     {
+        foreach ($this->getActiveBucket()->getJs(true, true) as $js) {
+            $js->printHtml();
+        }
     }
 
     public function executeFooterScripts()
     {
+        foreach ($this->getActiveBucket()->getExecuteScripts(true) as $executeScript) {
+            $executeScript->printHtml();
+        }
     }
 }

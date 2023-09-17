@@ -2,10 +2,10 @@
 
 namespace App\Core;
 
-use App\Constracts\ExternalAssetConstract;
+use App\Constracts\Assets\AssetExternalConstract;
 use App\Core\Assets\AssetUrl;
 
-abstract class ExternalAsset extends Asset implements ExternalAssetConstract
+abstract class ExternalAsset extends Asset implements AssetExternalConstract
 {
     protected AssetUrl $url;
 

@@ -5,10 +5,14 @@ namespace Puleeno;
 use App\Common\Option;
 use App\Constracts\AssetTypeEnum;
 use App\Core\AssetManager;
+use App\Core\Assets\AssetOptions;
+use App\Core\Assets\AssetStylesheetOptions;
+use App\Core\Assets\AssetUrl;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
 use App\Core\Factory\AppFactory;
+use App\Core\Helper;
 use App\Core\HookManager;
 use App\Core\Settings\SettingsInterface;
 use App\Http\Handlers\HttpErrorHandler;
@@ -19,6 +23,7 @@ use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
+use ReflectionClass;
 use Slim\App;
 use Slim\Factory\ServerRequestCreatorFactory;
 
@@ -150,7 +155,23 @@ final class Bootstrap
         }
 
         $this->container->set('option', Option::getInstance());
+    }
 
+    protected function initAssets()
+    {
+        AssetManager::registerAsset(
+            'sakura-css',
+            new AssetUrl('/assets/vendors/sakura/css/sakura.css'),
+            AssetTypeEnum::CSS(),
+            [],
+            '1.5.0',
+            AssetStylesheetOptions::parseOptionFromArray([]),
+            1
+        )->enqueue();
+    }
+
+    protected function initExtensions()
+    {
         // Load extension system
         $this->extensionManager->init($this->app, $this->container);
     }
@@ -161,6 +182,8 @@ final class Bootstrap
         $this->loadComposer();
         $this->setupEnvironment();
         $this->setup();
+        $this->initAssets();
+        $this->initExtensions();
         $this->loadExtensions();
         $this->run();
     }
@@ -219,6 +242,14 @@ final class Bootstrap
         $serverRequestCreator = ServerRequestCreatorFactory::create();
         $this->request = $serverRequestCreator->createServerRequestFromGlobals();
 
+        $requestPath = $this->request->getUri() != null ? $this->request->getUri()->getPath() : '/';
+        $isDashboard = $requestPath === $settings->get('admin_prefix', '/dashboard')
+            || strpos($requestPath, $settings->get('admin_prefix', '/dashboard') . '/') === 0;
+
+        $this->container->set('is_dashboard', $isDashboard);
+
+        $this->setupDashboardEnvironment($isDashboard);
+
         $responseFactory = $this->app->getResponseFactory();
         $callableResolver = $this->app->getCallableResolver();
         $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
@@ -228,6 +259,15 @@ final class Bootstrap
         register_shutdown_function($shutdownHandler);
 
         return $errorHandler;
+    }
+
+    protected function setupDashboardEnvironment($isDashboard)
+    {
+        $helperRelf = new ReflectionClass(Helper::class);
+        $isDashboardProperty = $helperRelf->getProperty('isDashboard');
+        $isDashboardProperty->setAccessible(true);
+        $isDashboardProperty->setValue($isDashboardProperty, $isDashboard);
+        $isDashboardProperty->setAccessible(false);
     }
 
     protected function writeErrorLogs(HttpErrorHandler $errorHandler)

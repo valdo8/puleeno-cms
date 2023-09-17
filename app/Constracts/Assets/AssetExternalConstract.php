@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Constracts;
+namespace App\Constracts\Assets;
 
 use App\Core\Assets\AssetUrl;
 
-interface ExternalAssetConstract extends AssetConstract
+interface AssetExternalConstract extends AssetConstract
 {
     public function setUrl(AssetUrl $url): self;
 

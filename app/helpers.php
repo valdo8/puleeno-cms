@@ -3,8 +3,9 @@
 use App\Common\Constants;
 use App\Common\Option;
 use App\Core\Application;
+use App\Core\Helper;
 use App\Core\HookManager;
-use Puleeno\Bootstrap;
+use Psr\Container\ContainerInterface;
 
 if (!function_exists('array_get')) {
     function array_get($arr, $keyStr, $defaultValue = null)
@@ -55,6 +56,13 @@ if (!function_exists('add_filter')) {
 if (!function_exists('get_app')) {
     function get_app(): Application
     {
-        return Bootstrap::getInstance()->getApp();
+        return Application::getInstance();
+    }
+}
+
+if (!function_exists('get_container')) {
+    function get_container(): ContainerInterface
+    {
+        return Helper::getContainer();
     }
 }

@@ -11,7 +11,8 @@ final class AssetTypeEnum
     protected static AssetTypeEnum $ICON;
     protected static AssetTypeEnum $FONT;
     protected static AssetTypeEnum $STYLE;
-    protected static AssetTypeEnum $SCRIPT;
+    protected static AssetTypeEnum $INIT_SCRIPT;
+    protected static AssetTypeEnum $EXECUTE_SCRIPT;
 
     protected $type;
 
@@ -28,7 +29,11 @@ final class AssetTypeEnum
             self::$ICON = new self('icon');
             self::$FONT = new self('font');
             self::$STYLE = new self('style');
-            self::$SCRIPT = new self('script');
+
+            // phpcs:ignoreFile
+            self::$INIT_SCRIPT = new self('init_script');
+            // phpcs:ignoreFile
+            self::$EXECUTE_SCRIPT = new self('execute_script');
 
             // Make inited flag is true
             static::$inited = true;
@@ -60,9 +65,14 @@ final class AssetTypeEnum
         return static::$STYLE;
     }
 
-    public static function SCRIPT(): AssetTypeEnum
+    public static function INIT_SCRIPT(): AssetTypeEnum
     {
-        return static::$SCRIPT;
+        return static::$INIT_SCRIPT;
+    }
+
+    public static function EXECUTE_SCRIPT(): AssetTypeEnum
+    {
+        return static::$EXECUTE_SCRIPT;
     }
 
     /**

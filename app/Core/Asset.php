@@ -2,20 +2,25 @@
 
 namespace App\Core;
 
-use App\Constracts\AssetConstract;
+use App\Constracts\Assets\AssetConstract;
+use App\Constracts\Assets\AssetOptionsConstract;
 use App\Constracts\AssetTypeEnum;
-use App\Core\Assets\AssetOptions;
+use App\Traits\AssetBaseTrait;
 
 abstract class Asset implements AssetConstract
 {
+    use AssetBaseTrait;
+
     protected $id;
 
     protected AssetTypeEnum $assetType;
-    protected AssetOptions $options;
+    protected AssetOptionsConstract $options;
 
-    protected $deps     = [];
-    protected $version  = null;
-    protected $priority = 10;
+    protected $deps       = [];
+    protected $version    = null;
+    protected $priority   = 10;
+    protected $isEnqueue  = false;
+    protected $isRendered = false;
 
     public function __construct($id)
     {
@@ -47,7 +52,7 @@ abstract class Asset implements AssetConstract
         return $this;
     }
 
-    public function setOptions(AssetOptions $assetOptions): AssetConstract
+    public function setOptions(AssetOptionsConstract $assetOptions): AssetConstract
     {
         $this->options = $assetOptions;
 
@@ -71,5 +76,17 @@ abstract class Asset implements AssetConstract
     public function getId()
     {
         return $this->id;
+    }
+
+    public function enqueue(): self
+    {
+        $this->isEnqueue = true;
+
+        return $this;
+    }
+
+    public function isEnqueue(): bool
+    {
+        return $this->isEnqueue;
     }
 }

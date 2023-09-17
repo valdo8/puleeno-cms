@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Constracts;
+namespace App\Constracts\Assets;
 
+use App\Constracts\AssetTypeEnum;
 use App\Core\Assets\AssetOptions;
 
 interface AssetConstract
@@ -22,7 +23,13 @@ interface AssetConstract
 
     public function getAssetType(): AssetTypeEnum;
 
+    public function isEnqueue(): bool;
+
     public function enqueue();
 
     public function printHtml();
+
+    public function getOptions(): ?AssetOptionsConstract;
+
+    public function getOption($name, $defaultValue = null, $classObject = null);
 }

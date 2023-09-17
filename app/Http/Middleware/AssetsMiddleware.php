@@ -16,7 +16,8 @@ class AssetsMiddleware implements MiddlewareConstract
         return 9999;
     }
 
-    protected function getSiteTitle() {
+    protected function getSiteTitle()
+    {
         return HookManager::applyFilters(
             'title',
             get_option('site_name', 'Puleeno CMS')
