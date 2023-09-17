@@ -28,6 +28,16 @@ class Bucket
         return $this->assets ?? [];
     }
 
+    public function getAsset($id, AssetTypeEnum $assetType): ?AssetConstract
+    {
+        if (!empty($this->assets[$assetType->getType()])) {
+            $assets = &$this->assets[$assetType->getType()];
+            if (isset($assets[$id])) {
+                return $assets[$id];
+            }
+        }
+        return null;
+    }
 
     public function getStylesheets($enqueueScripts = null): array
     {

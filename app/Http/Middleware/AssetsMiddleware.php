@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Constracts\MiddlewareConstract;
+use App\Core\AssetManager;
 use App\Core\HookManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -49,6 +50,9 @@ class AssetsMiddleware implements MiddlewareConstract
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
+
+        // Sort all assets by dependences
+        AssetManager::getInstance()->resolveAllDependences();
 
         $template = (string) $response->getBody();
 

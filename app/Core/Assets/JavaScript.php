@@ -11,7 +11,7 @@ class JavaScript extends ExternalAsset implements AssetScriptConstract
 {
     use AssetScriptTrait;
 
-    public function printHtml()
+    public function renderHtml()
     {
         echo HookManager::applyFilters(
             'print_js_html',
@@ -22,5 +22,7 @@ class JavaScript extends ExternalAsset implements AssetScriptConstract
             $this->getId(),
             $this
         );
+
+        parent::renderHtml();
     }
 }
