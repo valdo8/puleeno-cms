@@ -202,7 +202,7 @@ final class Bootstrap
         // Setup assets after extensions are loaded
         $assetManager = AssetManager::getInstance();
         $version = $this->container->get('version');
-        HookManager::addAction('head', function() use ($version) {
+        HookManager::addAction('head', function () use ($version) {
             echo sprintf('<meta name="generator" content="Puleeno CMS %s" />', $version) . PHP_EOL;
         }, 0);
 
