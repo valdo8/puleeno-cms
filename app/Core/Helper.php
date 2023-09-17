@@ -25,8 +25,8 @@ final class Helper
         $extensionDirectoryUrl = str_replace(ROOT_PATH, '', $extensionDirectory);
 
         return new AssetUrl(
-            sprintf('%s/%s', $extensionDirectoryUrl, $path),
-            !empty($minPath) ? sprintf('%s/%s', $extensionDirectoryUrl, $minPath) : null
+            implode(DIRECTORY_SEPARATOR, [$extensionDirectoryUrl, 'assets', $path]),
+            !empty($minPath) ? implode(DIRECTORY_SEPARATOR, [$extensionDirectoryUrl, 'assets', $minPath]) : null
         );
     }
 

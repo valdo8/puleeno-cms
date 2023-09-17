@@ -93,8 +93,14 @@ abstract class Asset implements AssetConstract
         return $this->isRendered;
     }
 
+    public function renderTabCharacter($size = 1)
+    {
+        echo str_repeat("\t", $size);
+    }
+
     public function renderHtml()
     {
+        echo PHP_EOL;
         $this->isRendered = true;
     }
 }

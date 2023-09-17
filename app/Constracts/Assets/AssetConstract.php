@@ -27,6 +27,8 @@ interface AssetConstract
 
     public function enqueue();
 
+    public function renderTabCharacter($size = 1);
+
     public function renderHtml();
 
     public function isRendered(): bool;

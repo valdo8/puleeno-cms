@@ -212,6 +212,7 @@ final class AssetManager
             if ($initScript->isRendered()) {
                 continue;
             }
+            $initScript->renderTabCharacter(2);
             $initScript->renderHtml();
         }
     }
@@ -222,6 +223,7 @@ final class AssetManager
             if ($css->isRendered()) {
                 continue;
             }
+            $css->renderTabCharacter(2);
             $css->renderHtml();
         }
 
@@ -229,6 +231,7 @@ final class AssetManager
             if ($js->isRendered()) {
                 continue;
             }
+            $js->renderTabCharacter(2);
             $js->renderHtml();
         }
     }
@@ -239,6 +242,7 @@ final class AssetManager
             if ($interalStyle->isRendered()) {
                 continue;
             }
+            $interalStyle->renderTabCharacter(2);
             $interalStyle->renderHtml();
         }
         $headExecScripts = $this->getEnqueueAssetsByType(
@@ -252,6 +256,7 @@ final class AssetManager
             if ($executeScript->isRendered()) {
                 continue;
             }
+            $executeScript->renderTabCharacter(2);
             $executeScript->renderHtml();
         }
     }
@@ -269,6 +274,7 @@ final class AssetManager
             if ($initScript->isRendered()) {
                 continue;
             }
+            $initScript->renderTabCharacter(2);
             $initScript->renderHtml();
         }
     }
@@ -279,6 +285,7 @@ final class AssetManager
             if ($js->isRendered()) {
                 continue;
             }
+            $js->renderTabCharacter(2);
             $js->renderHtml();
         }
     }
@@ -296,6 +303,7 @@ final class AssetManager
             if ($executeScript->isRendered()) {
                 continue;
             }
+            $executeScript->renderTabCharacter(2);
             $executeScript->renderHtml();
         }
     }
