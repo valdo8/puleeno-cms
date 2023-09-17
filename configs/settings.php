@@ -17,7 +17,7 @@ return function (ContainerBuilder $containerBuilder) {
                 'logErrorDetails'     => false,
                 'logger' => [
                     'name' => 'slim-app',
-                    'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../storage/logs/app.log',
+                    'path' => isset($_ENV['docker']) ? 'php://stdout' : implode(DIRECTORY_SEPARATOR, [get_path('storage'), 'logs', 'app.log']),
                     'level' => Logger::DEBUG,
                 ],
                 'admin_prefix' => '/dashboard',

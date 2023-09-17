@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Constracts\ExtensionConstract;
 use DI\Container;
+use ReflectionClass;
 use Slim\App;
 
 abstract class Extension implements ExtensionConstract
