@@ -52,16 +52,14 @@ abstract class Asset implements AssetConstract
         return $this;
     }
 
+    public function getDeps(): array
+    {
+        return $this->deps ?? [];
+    }
+
     public function setOptions(AssetOptionsConstract $assetOptions): AssetConstract
     {
         $this->options = $assetOptions;
-
-        return $this;
-    }
-
-    public function setPriority(int $priority): AssetConstract
-    {
-        $this->priority = $priority;
 
         return $this;
     }
@@ -88,5 +86,21 @@ abstract class Asset implements AssetConstract
     public function isEnqueue(): bool
     {
         return $this->isEnqueue;
+    }
+
+    public function isRendered(): bool
+    {
+        return $this->isRendered;
+    }
+
+    public function renderTabCharacter($size = 1)
+    {
+        echo str_repeat("\t", $size);
+    }
+
+    public function renderHtml()
+    {
+        echo PHP_EOL;
+        $this->isRendered = true;
     }
 }

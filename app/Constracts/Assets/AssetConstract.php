@@ -13,8 +13,6 @@ interface AssetConstract
 
     public function setVersion($version): AssetConstract;
 
-    public function setPriority(int $priority): AssetConstract;
-
     public function setAssetType(AssetTypeEnum $assetType): AssetConstract;
 
     public function isValid(): bool;
@@ -23,11 +21,17 @@ interface AssetConstract
 
     public function getAssetType(): AssetTypeEnum;
 
+    public function getDeps(): array;
+
     public function isEnqueue(): bool;
 
     public function enqueue();
 
-    public function printHtml();
+    public function renderTabCharacter($size = 1);
+
+    public function renderHtml();
+
+    public function isRendered(): bool;
 
     public function getOptions(): ?AssetOptionsConstract;
 

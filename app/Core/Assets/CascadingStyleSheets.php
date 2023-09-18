@@ -7,7 +7,7 @@ use App\Core\HookManager;
 
 class CascadingStyleSheets extends ExternalAsset
 {
-    public function printHtml()
+    public function renderHtml()
     {
         echo HookManager::applyFilters(
             'print_css_html',
@@ -18,5 +18,7 @@ class CascadingStyleSheets extends ExternalAsset
             $this->getId(),
             $this
         );
+
+        parent::renderHtml();
     }
 }

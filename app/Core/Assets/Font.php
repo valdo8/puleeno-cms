@@ -6,7 +6,8 @@ use App\Core\ExternalAsset;
 
 class Font extends ExternalAsset
 {
-    public function printHtml()
+    public function renderHtml()
     {
+        parent::renderHtml();
     }
 }

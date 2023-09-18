@@ -12,7 +12,8 @@ class Script extends Asset implements AssetHtmlConstract, AssetScriptConstract
 {
     use AssetScriptTrait;
 
-    public function printHtml()
+    public function renderHtml()
     {
+        parent::renderHtml();
     }
 }
