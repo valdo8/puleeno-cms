@@ -5,7 +5,6 @@ namespace Puleeno;
 use App\Common\Option;
 use App\Constracts\AssetTypeEnum;
 use App\Core\AssetManager;
-use App\Core\Assets\AssetOptions;
 use App\Core\Assets\AssetStylesheetOptions;
 use App\Core\Assets\AssetUrl;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -205,6 +204,10 @@ final class Bootstrap
         HookManager::addAction('head', function () use ($version) {
             echo sprintf('<meta name="generator" content="Puleeno CMS %s" />', $version) . PHP_EOL;
         }, 0);
+        HookManager::addAction('head', function () {
+            $faviconUrl = HookManager::applyFilters('favicon_url', '/assets/favicon.ico');
+            echo sprintf(str_repeat("\t", 2) . '<link rel="icon" type="image/x-icon" href="%s">', $faviconUrl) . PHP_EOL;
+        });
 
         // Setup assets in <head> tag
         HookManager::addAction('head', [$assetManager, 'printInitHeadScripts'], 33);
