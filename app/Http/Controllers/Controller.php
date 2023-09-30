@@ -13,7 +13,7 @@ class Controller implements ControllerConstract
     {
         $class_info = new ReflectionClass($this);
         if (strpos($class_info->getFileName(), get_path('extension')) !== false) {
-            $extensionPath = str_replace(get_path('extension') . '/', '', $class_info->getFileName());
+            $extensionPath = str_replace(get_path('extension') . DIRECTORY_SEPARATOR, '', $class_info->getFileName());
             $extensionPathArr = explode(DIRECTORY_SEPARATOR, $extensionPath);
             return $extensionPathArr[0];
         }

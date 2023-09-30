@@ -150,10 +150,11 @@ class ExtensionManager
         }
     }
 
-    protected function getExtension($extensionName, $throwException = true)
+    public static function getExtension($extensionName, $throwException = true)
     {
-        if (isset($this->activeExtensions[$extensionName])) {
-            return $this->activeExtensions[$extensionName];
+        $instance = static::getInstance();
+        if (isset($instance->activeExtensions[$extensionName])) {
+            return $instance->activeExtensions[$extensionName];
         }
         if ($throwException) {
             throw new NotFoundExtensionException($extensionName);
