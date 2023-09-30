@@ -19,14 +19,18 @@ use ReflectionClass;
 final class Helper
 {
     protected static $isDashboard = false;
+    protected static $updateUpdatePath = null;
 
     public static function createExtensionAssetUrl($extensionDirectory, $path, $minPath = null): AssetUrl
     {
         $extensionDirectoryUrl = str_replace(ROOT_PATH, '', $extensionDirectory);
+        if (strpos(PHP_OS, 'WINNT') !== false) {
+            $extensionDirectoryUrl = str_replace('\\', '/', $extensionDirectoryUrl);
+        }
 
         return new AssetUrl(
-            implode(DIRECTORY_SEPARATOR, [$extensionDirectoryUrl, 'assets', $path]),
-            !empty($minPath) ? implode(DIRECTORY_SEPARATOR, [$extensionDirectoryUrl, 'assets', $minPath]) : null
+            implode('/', [$extensionDirectoryUrl, 'assets', $path]),
+            !empty($minPath) ? implode('/', [$extensionDirectoryUrl, 'assets', $minPath]) : null
         );
     }
 
