@@ -7,6 +7,7 @@ use App\Constracts\AssetTypeEnum;
 use App\Core\AssetManager;
 use App\Core\Assets\AssetStylesheetOptions;
 use App\Core\Assets\AssetUrl;
+use App\Http\Controllers\GlobalController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
@@ -181,6 +182,11 @@ final class Bootstrap
         $this->loadComposer();
         $this->setupEnvironment();
         $this->setup();
+
+        $this->writeErrorLogs(
+            $this->setupHttpErrorHandle()
+        );
+
         $this->initAssets();
         $this->initExtensions();
         $this->loadExtensions();
@@ -220,13 +226,20 @@ final class Bootstrap
         HookManager::addAction('footer', [$assetManager, 'executeFooterScripts'], 99);
     }
 
+
+    /**
+     * This method use to register actions to URL has format `/pagepath`
+     */
+    protected function registerGlobalController()
+    {
+        $this->app->any('/{pagePath:/?.+}', [GlobalController::class, 'handle']);
+    }
+
     protected function run()
     {
-        $this->writeErrorLogs(
-            $this->setupHttpErrorHandle()
-        );
-
         $this->setupAssets();
+
+        $this->registerGlobalController();
 
         // Run App & Emit Response
         $response = $this->app->handle($this->request);
