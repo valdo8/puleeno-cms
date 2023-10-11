@@ -20,3 +20,4 @@ composer.lockvendor
 *.bak
 node_modules
 .env
+composer.lock
