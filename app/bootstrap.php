@@ -8,6 +8,7 @@ use App\Core\AssetManager;
 use App\Core\Assets\AssetStylesheetOptions;
 use App\Core\Assets\AssetUrl;
 use App\Http\Controllers\GlobalController;
+use App\Http\Kernel;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Core\ExtensionManager;
@@ -131,6 +132,9 @@ final class Bootstrap
         AppFactory::setContainer(($this->container = $containerBuilder->build()));
 
         $this->app = AppFactory::createApp();
+
+        $kernel = new Kernel($this->app);
+        $kernel->configure();
 
         // Register middleware
         $middleware = $this->loadSetting('middleware');
