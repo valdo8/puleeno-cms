@@ -133,6 +133,10 @@ final class Bootstrap
 
         $this->app = AppFactory::createApp();
 
+        $this->writeErrorLogs(
+            $this->setupHttpErrorHandle()
+        );
+
         $kernel = new Kernel($this->app);
         $kernel->configure();
 
@@ -186,11 +190,6 @@ final class Bootstrap
         $this->loadComposer();
         $this->setupEnvironment();
         $this->setup();
-
-        $this->writeErrorLogs(
-            $this->setupHttpErrorHandle()
-        );
-
         $this->initAssets();
         $this->initExtensions();
         $this->loadExtensions();
