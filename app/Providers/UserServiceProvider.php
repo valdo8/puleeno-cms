@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Services\UserService;
 
-class UserServiceProvider extends AbstractServiceProvider
+class UserServiceProvider extends ServiceProvider
 {
     public function register()
     {

@@ -133,10 +133,6 @@ final class Bootstrap
 
         $this->app = AppFactory::createApp();
 
-        $this->writeErrorLogs(
-            $this->setupHttpErrorHandle()
-        );
-
         $kernel = new Kernel($this->app);
         $kernel->configure();
 
@@ -193,6 +189,9 @@ final class Bootstrap
         $this->initAssets();
         $this->initExtensions();
         $this->loadExtensions();
+
+        $this->app->booted();
+
         $this->run();
     }
 
@@ -251,59 +250,6 @@ final class Bootstrap
         $responseEmitter->emit(
             HookManager::applyFilters('response', $response)
         );
-    }
-
-    // Create Error Handler
-    protected function setupHttpErrorHandle()
-    {
-        /** @var SettingsInterface $settings */
-        $settings = $this->container->get(SettingsInterface::class);
-
-        $displayErrorDetails = $settings->get('displayErrorDetails');
-
-        // Create Request object from globals
-        $serverRequestCreator = ServerRequestCreatorFactory::create();
-        $this->request = $serverRequestCreator->createServerRequestFromGlobals();
-
-        $requestPath = $this->request->getUri() != null ? $this->request->getUri()->getPath() : '/';
-        $isDashboard = $requestPath === $settings->get('admin_prefix', '/dashboard')
-            || strpos($requestPath, $settings->get('admin_prefix', '/dashboard') . '/') === 0;
-
-        $this->container->set('is_dashboard', $isDashboard);
-
-        $this->setupDashboardEnvironment($isDashboard);
-
-        $responseFactory = $this->app->getResponseFactory();
-        $callableResolver = $this->app->getCallableResolver();
-        $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
-
-        // Create Shutdown Handler
-        $shutdownHandler = new ShutdownHandler($this->request, $errorHandler, $displayErrorDetails);
-        register_shutdown_function($shutdownHandler);
-
-        return $errorHandler;
-    }
-
-    protected function setupDashboardEnvironment($isDashboard)
-    {
-        $helperRelf = new ReflectionClass(Helper::class);
-        $isDashboardProperty = $helperRelf->getProperty('isDashboard');
-        $isDashboardProperty->setAccessible(true);
-        $isDashboardProperty->setValue($isDashboardProperty, $isDashboard);
-        $isDashboardProperty->setAccessible(false);
-    }
-
-    protected function writeErrorLogs(HttpErrorHandler $errorHandler)
-    {
-        $settings = $this->container->get(SettingsInterface::class);
-
-        $displayErrorDetails = $settings->get('displayErrorDetails');
-        $logError = $settings->get('logError');
-        $logErrorDetails = $settings->get('logErrorDetails');
-
-        // Add Error Middleware
-        $errorMiddleware = $this->app->addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
-        $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
 
     public function getApp(): App

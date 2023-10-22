@@ -3,6 +3,7 @@
 use App\Common\Constants;
 use App\Common\Option;
 use App\Core\Application;
+use App\Core\Env;
 use App\Core\Helper;
 use App\Core\HookManager;
 use Psr\Container\ContainerInterface;
@@ -64,5 +65,13 @@ if (!function_exists('get_container')) {
     function get_container(): ContainerInterface
     {
         return Helper::getContainer();
+    }
+}
+
+
+if (!function_exists('env')) {
+    function env($name, $defaultValue = null)
+    {
+        return Env::get($name, $defaultValue);
     }
 }

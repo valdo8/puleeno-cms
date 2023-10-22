@@ -12,7 +12,7 @@ use Slim\Routing\RouteCollector;
 class Kernel
 {
     /**
-     * @var App
+     * @var \App\Constracts\ApplicationConstract
      */
     private $app;
 
@@ -31,6 +31,8 @@ class Kernel
      */
     public function configure()
     {
+        $this->app->booted();
+
         $this->app->addRoutingMiddleware();
         $this->app->addErrorMiddleware(true, true, true);
 
@@ -51,4 +53,3 @@ class Kernel
         });
     }
 }
-

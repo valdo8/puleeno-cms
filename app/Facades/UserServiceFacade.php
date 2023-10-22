@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Facades;
+
 use Psr\Container\ContainerInterface;
 
 class UserServiceFacade extends Facade

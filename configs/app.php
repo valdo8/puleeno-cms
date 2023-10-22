@@ -29,7 +29,8 @@ return [
      */
 
     'middleware' => [
-        // ...
+        \App\Http\Middleware\SessionMiddleware::class,
+        \App\Http\Middleware\AssetsMiddleware::class,
     ],
 
     'aliases' => [

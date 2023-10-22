@@ -10,9 +10,6 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use App\Constracts\ApplicationConstract;
-use App\Core\Routing\RouteCollector;
-use App\Http\ResponseEmitter\ResponseEmitter;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use PuleenoCMS\Exceptions\InvalidApplicationException;
+use Tightenco\Collect\Support\Arr;
 use Slim\App;
 use Slim\CallableResolver;
 use Slim\Factory\ServerRequestCreatorFactory;
@@ -33,6 +30,12 @@ use Slim\Middleware\ErrorMiddleware;
 use Slim\Middleware\RoutingMiddleware;
 use Slim\Routing\RouteResolver;
 use Slim\Routing\RouteRunner;
+use App\Constracts\ApplicationConstract;
+use App\Core\Routing\RouteCollector;
+use App\Http\ResponseEmitter\ResponseEmitter;
+use App\Providers\ServiceProvider;
+use App\Core\Log\LogServiceProvider;
+use PuleenoCMS\Exceptions\InvalidApplicationException;
 
 use function strtoupper;
 
@@ -50,6 +53,19 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
     protected MiddlewareDispatcherInterface $middlewareDispatcher;
 
     protected static $instance;
+
+    protected $isBooted = false;
+
+
+    /**
+     * @var \App\Providers\ServiceProvider[]
+     */
+    protected $serviceProviders = [];
+
+    /**
+     * @var boolean[]
+     */
+    protected $loadedProviders = [];
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -83,6 +99,19 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
         if (is_null(static::$instance)) {
             static::$instance = &$this;
         }
+
+        // Register base providers
+        $this->registerBaseServiceProviders();
+    }
+
+    public function booted()
+    {
+        $this->isBooted = true;
+    }
+
+    public function isBooted()
+    {
+        return $this->isBooted;
     }
 
     /**
@@ -234,5 +263,114 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
             throw new InvalidApplicationException('The application is not initialized');
         }
         return static::$instance;
+    }
+
+
+    /**
+     * Get the registered service provider instances if any exist.
+     *
+     * @param  \App\Providers\ServiceProvider|string  $provider
+     * @return array
+     */
+    public function getProviders($provider)
+    {
+        $name = is_string($provider) ? $provider : get_class($provider);
+
+        return Arr::where($this->serviceProviders, function ($value) use ($name) {
+            return $value instanceof $name;
+        });
+    }
+
+    /**
+     * Resolve a service provider instance from the class name.
+     *
+     * @param  string  $provider
+     * @return \App\Providers\ServiceProvider
+     */
+    public function resolveProvider($provider)
+    {
+        return new $provider($this);
+    }
+
+    /**
+     * Mark the given provider as registered.
+     *
+     * @param \App\Providers\ServiceProvider  $provider
+     * @return void
+     */
+    protected function markAsRegistered($provider)
+    {
+        $this->serviceProviders[] = $provider;
+
+        $this->loadedProviders[get_class($provider)] = true;
+    }
+
+    /**
+     * Get the registered service provider instance if it exists.
+     *
+     * @param  \App\Providers\ServiceProvider|string  $provider
+     * @return \App\Providers\ServiceProvider|null
+     */
+    public function getProvider($provider)
+    {
+        return array_values($this->getProviders($provider))[0] ?? null;
+    }
+
+
+    /**
+     * Boot the given service provider.
+     *
+     * @param  \App\Providers\ServiceProvider  $provider
+     * @return mixed
+     */
+    protected function bootProvider(ServiceProvider $provider)
+    {
+        if (method_exists($provider, 'boot')) {
+            return call_user_func([$provider, 'boot']);
+        }
+    }
+
+    /**
+     * Register a service provider with the application.
+     *
+     * @param  \App\Providers\ServiceProvider|string  $provider
+     * @param  bool  $force
+     * @return \App\Providers\ServiceProvider
+     */
+    public function register($provider, $force = false)
+    {
+        if (($registered = $this->getProvider($provider)) && ! $force) {
+            return $registered;
+        }
+
+        // If the given "provider" is a string, we will resolve it, passing in the
+        // application instance automatically for the developer. This is simply
+        // a more convenient way of specifying your service provider classes.
+        if (is_string($provider)) {
+            $provider = $this->resolveProvider($provider);
+        }
+
+        $provider->register();
+
+        $this->markAsRegistered($provider);
+
+        // If the application has already booted, we will call this boot method on
+        // the provider class so it has an opportunity to do its boot logic and
+        // will be ready for any usage by this developer's application logic.
+        if ($this->isBooted()) {
+            $this->bootProvider($provider);
+        }
+
+        return $provider;
+    }
+
+    /**
+     * Register all of the base service providers.
+     *
+     * @return void
+     */
+    protected function registerBaseServiceProviders()
+    {
+        $this->register(new LogServiceProvider($this));
     }
 }
