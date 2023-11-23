@@ -169,8 +169,7 @@ final class Bootstrap
             AssetTypeEnum::CSS(),
             [],
             '1.5.0',
-            AssetStylesheetOptions::parseOptionFromArray([]),
-            1
+            AssetStylesheetOptions::parseOptionFromArray([])
         )->enqueue();
     }
 
@@ -189,9 +188,6 @@ final class Bootstrap
         $this->initAssets();
         $this->initExtensions();
         $this->loadExtensions();
-
-        $this->app->booted();
-
         $this->run();
     }
 
@@ -244,7 +240,7 @@ final class Bootstrap
         $this->registerGlobalController();
 
         // Run App & Emit Response
-        $response = $this->app->handle($this->request);
+        $response = $this->app->handle($this->container->get('request'));
 
         $responseEmitter = new ResponseEmitter();
         $responseEmitter->emit(

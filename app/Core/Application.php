@@ -56,6 +56,11 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
 
     protected $isBooted = false;
 
+    /**
+     * @var \DI\Container
+     */
+    protected $container;
+
 
     /**
      * @var \App\Providers\ServiceProvider[]
@@ -372,5 +377,15 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
     protected function registerBaseServiceProviders()
     {
         $this->register(new LogServiceProvider($this));
+
+        // Create Request object from globals
+        $serverRequestCreator = ServerRequestCreatorFactory::create();
+        $request = $serverRequestCreator->createServerRequestFromGlobals();
+
+        $this->container->set('request', $request);
+    }
+
+    public function terminate()
+    {
     }
 }

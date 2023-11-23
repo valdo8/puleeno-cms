@@ -5,9 +5,9 @@ namespace App\Facades;
 use App\Http\Middleware\AuthGuard;
 use Psr\Container\ContainerInterface;
 
-class AuthFacade extends Facade
+class Auth extends Facade
 {
-    protected static function getFacadeAccessor()
+    public static function getFacadeAccessor()
     {
         return 'auth';
     }

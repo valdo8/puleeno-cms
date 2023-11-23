@@ -2,12 +2,10 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AuthGuard;
+use App\Constracts\ApplicationConstract;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
-use Slim\Middleware\ErrorMiddleware;
-use Slim\Routing\RouteCollector;
 
 class Kernel
 {
@@ -19,9 +17,9 @@ class Kernel
     /**
      * Constructor.
      *
-     * @param App $app
+     * @param ApplicationConstract $app
      */
-    public function __construct(App $app)
+    public function __construct(ApplicationConstract $app)
     {
         $this->app = $app;
     }
@@ -32,24 +30,34 @@ class Kernel
     public function configure()
     {
         $this->app->booted();
-
-        $this->app->addRoutingMiddleware();
-        $this->app->addErrorMiddleware(true, true, true);
-
-        // Add your middleware here
-        $this->app->add(new AuthGuard($this->app->getContainer()->get('user_repository')));
-
-        // Add your routes here
-        $this->mapRoutes();
     }
 
+
     /**
-     * Map the routes.
+     * Call the terminate method on any terminable middleware.
+     *
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return void
      */
-    private function mapRoutes()
+    public function terminate(RequestInterface $request, ResponseInterface $response)
     {
-        $this->app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
-            return $response->withJson(['message' => 'Hello, world!']);
-        });
+        $this->terminateMiddleware($request, $response);
+
+        $this->app->terminate();
+    }
+
+
+
+    /**
+     * Call the terminate method on any terminable middleware.
+     *
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     * @return void
+     */
+    protected function terminateMiddleware($request, $response)
+    {
+        // placeholder to terminal middlewares
     }
 }

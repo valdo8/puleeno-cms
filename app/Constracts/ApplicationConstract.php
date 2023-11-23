@@ -10,4 +10,6 @@ interface ApplicationConstract extends RouteCollectorProxyInterface, RequestHand
     public function booted();
 
     public function isBooted();
+
+    public function terminate();
 }
