@@ -241,6 +241,11 @@ final class Bootstrap
 
         $this->registerGlobalController();
 
+        $themeBootstrap = implode(DIRECTORY_SEPARATOR, [get_path('theme'), get_active_theme(), 'bootstrap.php']);
+        if (file_exists($themeBootstrap)) {
+            require_once $themeBootstrap;
+        }
+
         // Run App & Emit Response
         $response = $this->app->handle($this->request);
 
