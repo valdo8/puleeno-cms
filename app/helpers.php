@@ -3,6 +3,7 @@
 use App\Common\Constants;
 use App\Common\Option;
 use App\Core\Application;
+use App\Core\Env;
 use App\Core\Helper;
 use App\Core\HookManager;
 use Psr\Container\ContainerInterface;
@@ -64,5 +65,16 @@ if (!function_exists('get_container')) {
     function get_container(): ContainerInterface
     {
         return Helper::getContainer();
+    }
+}
+
+if (!function_exists('get_active_theme')) {
+    function get_active_theme()
+    {
+        $activedTheme = Env::get('ACTIVATE_THEME');
+
+        return empty($activedTheme)
+            ? $activedTheme
+            : Env::get('activate_theme');
     }
 }
