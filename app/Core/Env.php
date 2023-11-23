@@ -11,8 +11,8 @@ final class Env
             return $defaultValue;
         }
 
-        if (in_array($envVar, ["true", "false"])) {
-            return boolval($envVar);
+        if (in_array(($lowerValue = trim(strtolower($envVar))), ["true", "false"])) {
+            return $lowerValue === "true";
         }
         if (is_numeric($envVar)) {
             if (strpos($envVar, ',') !== false) {
