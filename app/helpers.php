@@ -73,9 +73,9 @@ if (!function_exists('get_active_theme')) {
     {
         $activedTheme = Env::get('ACTIVATE_THEME');
 
-        return empty($activedTheme)
+        return !empty($activedTheme)
             ? $activedTheme
-            : Env::get('activate_theme');
+            : Option::getInstance()->get('activate_theme', 'default');
     }
 }
 
