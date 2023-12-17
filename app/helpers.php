@@ -68,10 +68,47 @@ if (!function_exists('get_container')) {
     }
 }
 
-
 if (!function_exists('env')) {
     function env($name, $defaultValue = null)
     {
         return Env::get($name, $defaultValue);
+    }
+}
+
+if (!function_exists('get_active_theme')) {
+    function get_active_theme()
+    {
+        $activedTheme = Env::get('ACTIVATE_THEME');
+
+        return empty($activedTheme)
+            ? $activedTheme
+            : Env::get('activate_theme');
+    }
+}
+
+if (!function_exists('get_active_theme_directory')) {
+    function get_active_theme_directory()
+    {
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                get_path('theme'),
+                get_active_theme(),
+            ]
+        );
+    }
+}
+
+if (!function_exists('get_active_theme_url')) {
+    function get_active_theme_url($theme = null)
+    {
+        return implode(
+            '/',
+            [
+                HookManager::applyFilters('theme_url_hostname', ''),
+                'themes',
+                is_null($theme) ? get_active_theme() : $theme,
+            ]
+        );
     }
 }
