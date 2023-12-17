@@ -34,7 +34,15 @@ class LogServiceProvider extends ServiceProvider
 
         $displayErrorDetails = $settings->get('displayErrorDetails');
 
-        $request = $container->get('request');
+        $request = $container->has('request')
+            ? $container->get('request')
+            : null;
+
+        if (is_null($request)) {
+            // Create Request object from globals
+            $serverRequestCreator = ServerRequestCreatorFactory::create();
+            $request = $serverRequestCreator->createServerRequestFromGlobals();
+        }
 
         $requestPath = $request->getUri() != null ? $request->getUri()->getPath() : '/';
         $isDashboard = $requestPath === $settings->get('admin_prefix', '/dashboard')

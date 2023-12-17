@@ -59,7 +59,7 @@ class Application extends App implements RequestHandlerInterface, ApplicationCon
     /**
      * @var \DI\Container
      */
-    protected $container;
+    protected ? ContainerInterface $container;
 
 
     /**
