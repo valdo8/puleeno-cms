@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Core\Auth;
 
-class SessionGuard {
+class SessionGuard
+{
 }

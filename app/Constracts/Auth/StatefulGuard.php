@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Constracts\Auth;
 
-interface StatefulGuard {
+interface StatefulGuard
+{
     /**
      * Determine if the current user is authenticated.
      *

@@ -1,9 +1,13 @@
 <?php
+
 namespace App\Core\Auth;
+
 use App\Constracts\Auth\Factory as FactoryContract;
 
-class AuthManager implements FactoryContract {
-    public function guard($name = null) {
+class AuthManager implements FactoryContract
+{
+    public function guard($name = null)
+    {
     }
 
     /**
@@ -37,10 +41,12 @@ class AuthManager implements FactoryContract {
         return $guard;
     }
 
-    protected function getDefaultDriver() {
+    protected function getDefaultDriver()
+    {
     }
 
-    public function setDefaultDriver($name) {
+    public function setDefaultDriver($name)
+    {
         $this->app['config']['auth.defaults.guard'] = $name;
     }
 

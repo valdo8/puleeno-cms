@@ -8,7 +8,8 @@ abstract class Facade
 {
     protected static $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         if (is_null(static::$container)) {
             static::setContainer($container);
         }
