@@ -56,7 +56,7 @@ class ExtensionManager
     public static function getAllExtensions(): array
     {
         $extensions = [];
-        $extensionFiles = glob(EXTENSIONS_DIR . DIRECTORY_SEPARATOR . '{*/*,*}.json', GLOB_BRACE);
+        $extensionFiles = glob(EXTENSIONS_DIR . DIRECTORY_SEPARATOR . '{*/composer,composer}.json', GLOB_BRACE);
 
         foreach ($extensionFiles as $extensionFile) {
             $jsonStr       = file_exists($extensionFile) ? file_get_contents($extensionFile) : '';

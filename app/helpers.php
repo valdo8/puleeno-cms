@@ -68,6 +68,13 @@ if (!function_exists('get_container')) {
     }
 }
 
+if (!function_exists('env')) {
+    function env($name, $defaultValue = null)
+    {
+        return Env::get($name, $defaultValue);
+    }
+}
+
 if (!function_exists('get_active_theme')) {
     function get_active_theme()
     {

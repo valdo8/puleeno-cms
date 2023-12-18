@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+use App\Console\Application;
+use Slim\Console\Config\Config;
+
+
+// Register your CLI commands here
+
+$config = new Config();
+$application = new Application($config);
+
+$application->run();
