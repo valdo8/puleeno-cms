@@ -11,7 +11,26 @@ class Settings implements SettingsInterface
 
     public function __construct(array $settings)
     {
-        $this->settings = $settings;
+        $this->settings = $this->init($settings);
+    }
+
+    private function init($settings, $prefix = null, &$ret = []): array
+    {
+        // Reset data type
+        if (!is_array($ret)) {
+            $ret = [];
+        }
+
+        foreach ($settings as $key => $subSettings) {
+            $settingKey = empty($prefix) ? $key : sprintf('%s.%s', $prefix, $key);
+            if (is_array($subSettings)) {
+                $this->init($subSettings, $settingKey, $ret);
+            } else {
+                $ret[$settingKey] = $subSettings;
+            }
+        }
+
+        return $ret;
     }
 
     /**
