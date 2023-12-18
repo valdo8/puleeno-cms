@@ -10,9 +10,6 @@
 [submodule "extensions/text-editor"]
 	path = extensions/text-editor
 	url = https://github.com/puleeno-cms/editor-extension.git
-[submodule "extensions/blueprint"]
-	path = extensions/blueprint
-	url = https://github.com/puleeno-cms/blueprint-extension.git
 [submodule "extensions/file-manager"]
 	path = extensions/file-manager
 	url = https://github.com/puleeno-cms/file-manager-extension.git
