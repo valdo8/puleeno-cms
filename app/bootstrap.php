@@ -158,11 +158,11 @@ final class Bootstrap
     protected function initAssets()
     {
         AssetManager::registerAsset(
-            'sakura-css',
-            new AssetUrl('/assets/vendors/sakura/css/sakura.css'),
+            'common-css',
+            new AssetUrl('/extensions/common/assets/css/common.css'),
             AssetTypeEnum::CSS(),
             [],
-            '1.5.0',
+            '1.0.0',
             AssetStylesheetOptions::parseOptionFromArray([])
         )->enqueue();
     }
