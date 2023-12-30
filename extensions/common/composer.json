@@ -1,0 +1,19 @@
+{
+    "name": "puleeno-cms/common",
+    "description": "The common extension for Puleeno CMS",
+    "autoload": {
+        "psr-4": {
+            "PuleenoCMS\\Common\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Puleeno",
+            "email": "puleeno@gmail.com"
+        }
+    ],
+    "require": {},
+    "config": {
+        "vendor-dir": "libs"
+    }
+}
