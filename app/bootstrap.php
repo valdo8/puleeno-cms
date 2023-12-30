@@ -204,7 +204,7 @@ final class Bootstrap
         }, 0);
         HookManager::addAction('head', function () {
             $faviconUrl = HookManager::applyFilters('favicon_url', '/assets/favicon.ico');
-            echo sprintf(str_repeat("\t", 2) . '<link rel="icon" type="image/x-icon" href="%s">', $faviconUrl) . PHP_EOL;
+            echo sprintf(str_repeat("\t", 2) . '<link rel="icon" type="image/x-icon" href="%s" />', $faviconUrl) . PHP_EOL;
         });
 
         // Setup assets in <head> tag

@@ -12,7 +12,7 @@ class CascadingStyleSheets extends ExternalAsset
         echo HookManager::applyFilters(
             'print_css_html',
             sprintf(
-                '<link href="%1$s" type="text/css" />',
+                '<link rel="stylesheet" href="%1$s" type="text/css" />',
                 HookManager::applyFilters("asset_css_url", $this->getUrl(), $this->id, $this)
             ),
             $this->getId(),
