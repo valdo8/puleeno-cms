@@ -354,18 +354,22 @@ template {
 /*!***************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./resources/scss/common.scss ***!
   \***************************************************************************************************************************************************************/
-/* Sakura.css v1.5.0
- * ================
- * Minimal css theme.
- * Project: https://github.com/oxalorg/sakura/
- */
-/* Body */
-html {
+.sakura-css {
+  /* Sakura.css v1.5.0
+   * ================
+   * Minimal css theme.
+   * Project: https://github.com/oxalorg/sakura/
+   */
+  /* Body */
+  /* Pre and Code */
+  /* Tables */
+  /* Buttons, forms and input */
+}
+.sakura-css html {
   font-size: 62.5%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
-
-body {
+.sakura-css body {
   font-size: 1.8rem;
   line-height: 1.618;
   max-width: 38em;
@@ -374,18 +378,17 @@ body {
   background-color: #f9f9f9;
   padding: 13px;
 }
-
 @media (max-width: 684px) {
-  body {
+  .sakura-css body {
     font-size: 1.53rem;
   }
 }
 @media (max-width: 382px) {
-  body {
+  .sakura-css body {
     font-size: 1.35rem;
   }
 }
-h1, h2, h3, h4, h5, h6 {
+.sakura-css h1, .sakura-css h2, .sakura-css h3, .sakura-css h4, .sakura-css h5, .sakura-css h6 {
   line-height: 1.1;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   font-weight: 700;
@@ -396,67 +399,54 @@ h1, h2, h3, h4, h5, h6 {
   -ms-word-break: break-all;
   word-break: break-word;
 }
-
-h1 {
+.sakura-css h1 {
   font-size: 2.35em;
 }
-
-h2 {
+.sakura-css h2 {
   font-size: 2em;
 }
-
-h3 {
+.sakura-css h3 {
   font-size: 1.75em;
 }
-
-h4 {
+.sakura-css h4 {
   font-size: 1.5em;
 }
-
-h5 {
+.sakura-css h5 {
   font-size: 1.25em;
 }
-
-h6 {
+.sakura-css h6 {
   font-size: 1em;
 }
-
-p {
+.sakura-css p {
   margin-top: 0px;
   margin-bottom: 2.5rem;
 }
-
-small, sub, sup {
+.sakura-css small, .sakura-css sub, .sakura-css sup {
   font-size: 75%;
 }
-
-hr {
+.sakura-css hr {
   border-color: #1d7484;
 }
-
-a {
+.sakura-css a {
   text-decoration: none;
   color: #1d7484;
 }
-a:visited {
+.sakura-css a:visited {
   color: #144f5a;
 }
-a:hover {
+.sakura-css a:hover {
   color: #982c61;
   border-bottom: 2px solid #4a4a4a;
 }
-
-ul {
+.sakura-css ul {
   padding-left: 1.4em;
   margin-top: 0px;
   margin-bottom: 2.5rem;
 }
-
-li {
+.sakura-css li {
   margin-bottom: 0.4em;
 }
-
-blockquote {
+.sakura-css blockquote {
   margin-left: 0px;
   margin-right: 0px;
   padding-left: 1em;
@@ -467,20 +457,16 @@ blockquote {
   margin-bottom: 2.5rem;
   background-color: #f1f1f1;
 }
-
-blockquote p {
+.sakura-css blockquote p {
   margin-bottom: 0;
 }
-
-img, video {
+.sakura-css img, .sakura-css video {
   height: auto;
   max-width: 100%;
   margin-top: 0px;
   margin-bottom: 2.5rem;
 }
-
-/* Pre and Code */
-pre {
+.sakura-css pre {
   background-color: #f1f1f1;
   display: block;
   padding: 1em;
@@ -489,47 +475,38 @@ pre {
   margin-bottom: 2.5rem;
   font-size: 0.9em;
 }
-
-code, kbd, samp {
+.sakura-css code, .sakura-css kbd, .sakura-css samp {
   font-size: 0.9em;
   padding: 0 0.5em;
   background-color: #f1f1f1;
   white-space: pre-wrap;
 }
-
-pre > code {
+.sakura-css pre > code {
   padding: 0;
   background-color: transparent;
   white-space: pre;
   font-size: 1em;
 }
-
-/* Tables */
-table {
+.sakura-css table {
   text-align: justify;
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
 }
-
-td, th {
+.sakura-css td, .sakura-css th {
   padding: 0.5em;
   border-bottom: 1px solid #f1f1f1;
 }
-
-/* Buttons, forms and input */
-input, textarea {
+.sakura-css input, .sakura-css textarea {
   border: 1px solid #4a4a4a;
 }
-input:focus, textarea:focus {
+.sakura-css input:focus, .sakura-css textarea:focus {
   border: 1px solid #1d7484;
 }
-
-textarea {
+.sakura-css textarea {
   width: 100%;
 }
-
-.button, button, input[type=submit], input[type=reset], input[type=button], input[type=file]::file-selector-button {
+.sakura-css .button, .sakura-css button, .sakura-css input[type=submit], .sakura-css input[type=reset], .sakura-css input[type=button], .sakura-css input[type=file]::file-selector-button {
   display: inline-block;
   padding: 5px 10px;
   text-align: center;
@@ -542,21 +519,20 @@ textarea {
   cursor: pointer;
   box-sizing: border-box;
 }
-.button[disabled], button[disabled], input[type=submit][disabled], input[type=reset][disabled], input[type=button][disabled], input[type=file]::file-selector-button[disabled] {
+.sakura-css .button[disabled], .sakura-css button[disabled], .sakura-css input[type=submit][disabled], .sakura-css input[type=reset][disabled], .sakura-css input[type=button][disabled], .sakura-css input[type=file]::file-selector-button[disabled] {
   cursor: default;
   opacity: 0.5;
 }
-.button:hover, button:hover, input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover, input[type=file]::file-selector-button:hover {
+.sakura-css .button:hover, .sakura-css button:hover, .sakura-css input[type=submit]:hover, .sakura-css input[type=reset]:hover, .sakura-css input[type=button]:hover, .sakura-css input[type=file]::file-selector-button:hover {
   background-color: #982c61;
   color: #f9f9f9;
   outline: 0;
 }
-.button:focus-visible, button:focus-visible, input[type=submit]:focus-visible, input[type=reset]:focus-visible, input[type=button]:focus-visible, input[type=file]::file-selector-button:focus-visible {
+.sakura-css .button:focus-visible, .sakura-css button:focus-visible, .sakura-css input[type=submit]:focus-visible, .sakura-css input[type=reset]:focus-visible, .sakura-css input[type=button]:focus-visible, .sakura-css input[type=file]::file-selector-button:focus-visible {
   outline-style: solid;
   outline-width: 2px;
 }
-
-textarea, select, input {
+.sakura-css textarea, .sakura-css select, .sakura-css input {
   color: #4a4a4a;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   margin-bottom: 10px;
@@ -566,16 +542,14 @@ textarea, select, input {
   box-shadow: none;
   box-sizing: border-box;
 }
-textarea:focus, select:focus, input:focus {
+.sakura-css textarea:focus, .sakura-css select:focus, .sakura-css input:focus {
   border: 1px solid #1d7484;
   outline: 0;
 }
-
-input[type=checkbox]:focus {
+.sakura-css input[type=checkbox]:focus {
   outline: 1px dotted #1d7484;
 }
-
-label, legend, fieldset {
+.sakura-css label, .sakura-css legend, .sakura-css fieldset {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;

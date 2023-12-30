@@ -138,4 +138,36 @@ final class Helper
     {
         return self::$isDashboard;
     }
+
+    protected static function convertArrayToString($arr, $joinCharacter = ',')
+    {
+        $ret = '';
+        if (is_array($arr)) {
+            foreach ($arr as $index => $value) {
+                if (is_array($value)) {
+                    $ret .= self::convertArrayToString($value, $joinCharacter);
+                } else {
+                    $ret .= ($index > 0 ? ' ' : '') . $value;
+                }
+            }
+            return $ret;
+        }
+        return $arr;
+    }
+
+    public static function generateHtmlAttributes($attributes)
+    {
+        $ret = '';
+        foreach ($attributes as $attributeName => $attributeValue) {
+            if (empty($attributeValue)) {
+                if (!empty($attributeName)) {
+                    $ret = $attributeName;
+                }
+                continue;
+            }
+            $ret .= sprintf('%s="%s"', $attributeName, static::convertArrayToString($attributeValue, ' '));
+        }
+
+        return $ret;
+    }
 }

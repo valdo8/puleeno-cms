@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Constracts\MiddlewareConstract;
 use App\Core\AssetManager;
+use App\Core\Helper;
 use App\Core\HookManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -46,6 +47,15 @@ class AssetsMiddleware implements MiddlewareConstract
         return ob_get_clean();
     }
 
+    protected function generateBodyClasses()
+    {
+        return  Helper::generateHtmlAttributes([
+            'class' => HookManager::applyFilters('body_class', [
+                'sakura-css'
+            ])
+        ]);
+    }
+
     // Replace template tags by action hooks
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -60,11 +70,13 @@ class AssetsMiddleware implements MiddlewareConstract
             '<!--site:title-->',
             '<!--asset:head-->',
             '<!--html:start_body-->',
-            '<!--asset:footer-->'
+            '<!--html:body_class-->',
+            '<!--asset:footer-->',
         ], [
             $this->getSiteTitle(),
             $this->getHeadAssets(),
             $this->getOpenBodyTags(),
+            $this->generateBodyClasses(),
             $this->getFooterAssets()
         ], $template);
 
