@@ -47,13 +47,31 @@ class AssetsMiddleware implements MiddlewareConstract
         return ob_get_clean();
     }
 
+    protected function generateHtmlClasses()
+    {
+        $htmlClass = Helper::generateHtmlAttributes([
+            'class' => HookManager::applyFilters('html_class', [
+                'sakura-css'
+            ]),
+        ], true);
+
+        if (strlen(trim($htmlClass)) > 0) {
+            return ' ' . $htmlClass;
+        }
+        return '';
+    }
+
     protected function generateBodyClasses()
     {
-        return  Helper::generateHtmlAttributes([
+        $bodyClass = Helper::generateHtmlAttributes([
             'class' => HookManager::applyFilters('body_class', [
-                'sakura-css'
-            ])
-        ]);
+            ]),
+        ], true);
+
+        if (strlen(trim($bodyClass)) > 0) {
+            return ' ' . $bodyClass;
+        }
+        return '';
     }
 
     // Replace template tags by action hooks
@@ -70,12 +88,14 @@ class AssetsMiddleware implements MiddlewareConstract
             '<!--site:title-->',
             '<!--asset:head-->',
             '<!--html:start_body-->',
+            '<!--html:html_class-->',
             '<!--html:body_class-->',
             '<!--asset:footer-->',
         ], [
             $this->getSiteTitle(),
             $this->getHeadAssets(),
             $this->getOpenBodyTags(),
+            $this->generateHtmlClasses(),
             $this->generateBodyClasses(),
             $this->getFooterAssets()
         ], $template);

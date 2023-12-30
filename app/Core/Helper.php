@@ -155,12 +155,12 @@ final class Helper
         return $arr;
     }
 
-    public static function generateHtmlAttributes($attributes)
+    public static function generateHtmlAttributes($attributes, $skipEmpty = false)
     {
         $ret = '';
         foreach ($attributes as $attributeName => $attributeValue) {
             if (empty($attributeValue)) {
-                if (!empty($attributeName)) {
+                if (!empty($attributeName) && !$skipEmpty) {
                     $ret = $attributeName;
                 }
                 continue;
