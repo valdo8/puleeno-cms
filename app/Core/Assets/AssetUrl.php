@@ -15,7 +15,7 @@ class AssetUrl
         }
     }
 
-    public function getUrl($supportMinUrl = false)
+    public function getUrl($supportMinUrl = false): string
     {
         if (!$supportMinUrl || empty($this->minUrl)) {
             return $this->url;
