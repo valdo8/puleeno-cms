@@ -7,7 +7,7 @@ final class Env
     public static function get($key, $defaultValue = null)
     {
         $envVar = getenv($key);
-        if (is_null($envVar)) {
+        if ($envVar === false) {
             return $defaultValue;
         }
 
