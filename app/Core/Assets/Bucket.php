@@ -15,12 +15,13 @@ class Bucket
 
     protected $handleIds = [];
 
-    public function addAsset(AssetConstract &$asset)
+    public function addAsset(AssetConstract &$asset): self
     {
         if (!$asset->isValid()) {
-            return;
+            return $this;
         }
         $this->assets[$asset->getAssetType()->getType()][$asset->getId()] = $asset;
+        return $this;
     }
 
     public function getAssets()
