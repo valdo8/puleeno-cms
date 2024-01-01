@@ -103,4 +103,9 @@ abstract class Asset implements AssetConstract
         echo PHP_EOL;
         $this->isRendered = true;
     }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
 }

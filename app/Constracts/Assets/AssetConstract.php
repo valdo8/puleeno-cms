@@ -36,4 +36,6 @@ interface AssetConstract
     public function getOptions(): ?AssetOptionsConstract;
 
     public function getOption($name, $defaultValue = null, $classObject = null);
+
+    public function getVersion();
 }

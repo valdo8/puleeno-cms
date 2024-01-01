@@ -26,6 +26,15 @@ abstract class ExternalAsset extends Asset implements AssetExternalConstract
             $supportMinUrl = Env::get('COMPRESSED_ASSETS', !Env::get('DEBUG', false));
         }
 
-        return $this->url->getUrl($supportMinUrl);
+        $asetUrl = $this->url->getUrl($supportMinUrl);
+        if (empty($this->getVersion())) {
+            return $asetUrl;
+        }
+
+        $queryJoinCharacter = '?';
+        if (strpos($asetUrl, '?')) {
+            $queryJoinCharacter = '&';
+        }
+        return $asetUrl . $queryJoinCharacter . 'v=' . $this->getVersion();
     }
 }
