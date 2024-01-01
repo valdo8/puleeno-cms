@@ -158,8 +158,8 @@ final class Bootstrap
     protected function initAssets()
     {
         AssetManager::registerAsset(
-            'common-css',
-            new AssetUrl('/extensions/common/assets/css/common.css'),
+            'common',
+            new AssetUrl('/extensions/common/assets/css/common.css', '/extensions/common/assets/css/common.min.css'),
             AssetTypeEnum::CSS(),
             [],
             '1.0.0',

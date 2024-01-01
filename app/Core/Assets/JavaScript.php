@@ -17,10 +17,11 @@ class JavaScript extends ExternalAsset implements AssetScriptConstract
         echo HookManager::applyFilters(
             'print_js_html',
             sprintf(
-                '<script src="%1$s"></script>',
+                '<script id="%2$s-js" src="%1$s"></script>',
                 HookManager::applyFilters("asset_js_url", $this->getUrl(
                     Env::get("COMPRESSED_ASSETS", Env::get("DEBUG") === false)
-                ), $this->id, $this)
+                ), $this->id, $this),
+                $this->id
             ),
             $this->getId(),
             $this
