@@ -37,7 +37,7 @@
         "opis/orm": "^1.0",
         "php-di/php-di": "^6.4",
         "phpseclib/phpseclib": "^3.0",
-        "ramsey/uuid": "^4.2 || ^4.7.4",
+        "ramsey/uuid": "^4.2.3",
         "slim/console": "^0.1.0",
         "slim/psr7": "^1.6",
         "slim/slim": "^4.12",
