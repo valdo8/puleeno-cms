@@ -1,11 +1,11 @@
 Puleeno CMS
 =====
 
-Puleeno CMS is a free and open-source content management system (CMS) that is built on the PHP framework Laravel. Puleeno CMS is easy to use and flexible, making it a great choice for creating a wide variety of websites and digital content, such as blogs, wikis, and e-commerce websites.
+Puleeno CMS是一个基于PHP Laravel框架的免费开源内容管理系统。Puleeno CMS易于使用且灵活，是创建各种网站（如博客、Wiki和电子商务网站）的绝佳选择。.
 
-# Features
+# 特征
 
-## Puleeno CMS includes a variety of features, such as:
+## Puleeno CMS的各种功能, such as:
 
 A user-friendly interface that makes it easy to create and manage content without having to know how to code.
 A variety of built-in templates, themes, and plugins that make it easy to customize your website.
@@ -24,18 +24,15 @@ Security: Puleeno CMS can help to improve the security of your website by provid
 Support: Puleeno CMS has a large community of users and developers who can provide support and help with troubleshooting.
 Getting started with Puleeno CMS
 
-## To get started with Puleeno CMS, you can follow these steps:
+## 使用步骤:
 
-Download the Puleeno CMS installation package from the Puleeno CMS website.
-Install the Puleeno CMS installation package on your web server.
-Create a database for Puleeno CMS.
-Configure Puleeno CMS.
-Start using Puleeno CMS to create and manage your website or digital content.
-Support
+1.下载CMS安装包
+2.把安装包部署到虚拟空间或服务器上
+3.创建数据库
+4.设置CMS参数
+5.开始使用cms
 
-If you need help with Puleeno CMS, you can visit the Puleeno CMS website or join the Puleeno CMS community forum.
-
-## Webserver Configs
+## Web服务器设置
 
 ### NGINX
 
@@ -58,15 +55,15 @@ server {
 
 ```
 
-# License
+# 许可
 
 Puleeno CMS is licensed under the MIT license.
 
-# Contributors
+# 贡献者
 
-Puleeno CMS is developed and maintained by a community of volunteers.
+Puleeno CMS由开发者和志愿者维护.
 
 # Credits
 
-Puleeno CMS uses a variety of open-source software libraries and components.
+Puleeno CMS使用各种开源组件和软件库.
 
