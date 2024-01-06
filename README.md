@@ -1,7 +1,8 @@
 Puleeno CMS
 =====
 
-Puleeno CMS是一个基于PHP Laravel框架的免费开源内容管理系统。Puleeno CMS易于使用且灵活，是创建各种网站（如博客、Wiki和电子商务网站）的绝佳选择。.
+Puleeno CMS是一个基于PHP Laravel框架的免费开源内容管理系统。
+易用且灵活，是创建各种网站(如博客、企业门户、Wiki和电子商务网站)的不二选择。.
 
 # 特征
 
